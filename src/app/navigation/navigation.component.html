@@ -1,0 +1,15 @@
+<ng-container *ngIf="(currentUser$ | async); else notAuthenticated">
+  <nav class="navbar-header" >
+    <a mat-flat-button color="primary" routerLink="home"        routerLinkActive="active">SWKROA</a>
+    <a mat-flat-button color="primary" routerLink="memberships" routerLinkActive="active">Memberships</a>
+    <a mat-flat-button color="primary" routerLink="accounting"  routerLinkActive="active">Accounting</a>
+    <a mat-flat-button color="primary" routerLink="reports"     routerLinkActive="active">Reports</a>
+    <a mat-flat-button color="primary" routerLink="maintenance" routerLinkActive="active">Maintenance</a>
+  </nav>
+</ng-container>
+
+<ng-template #notAuthenticated>
+  <nav class="navbar-header">
+    <a mat-flat-button color="primary" routerLink="home" [disabled]="true">SWKROA</a>
+  </nav>
+</ng-template>

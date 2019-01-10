@@ -1,0 +1,9 @@
+
+export enum AuthenticationStatus {
+  STATUS_DISABLED  = 'DISABLED',
+  STATUS_LOCKED    = 'LOCKED',
+  STATUS_EXPIRED   = 'EXPIRED',
+  STATUS_TEMPORARY = 'TEMPORARY',
+  STATUS_INVALID   = 'INVALID',
+  STATUS_VALID     = 'VALID'
+}

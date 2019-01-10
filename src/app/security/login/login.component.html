@@ -1,0 +1,57 @@
+<form [formGroup]="loginForm"
+      (ngSubmit)="onLogin()"
+      novalidate>
+  <mat-card [attr.role]="'form'" class="login-card">
+    <mat-card-header>
+      <mat-card-title>Welcome to SWKROA</mat-card-title>
+      <mat-card-subtitle>Please Login</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="login-content">
+      <mat-error *ngIf="error" class="login-error">
+        <ng-container [ngSwitch]="error">
+          <ng-container *ngSwitchCase="AUTH_STATUS.STATUS_DISABLED">
+            Your account has been disabled!
+          </ng-container>
+          <ng-container *ngSwitchCase="AUTH_STATUS.STATUS_EXPIRED">
+            Your account has expired!
+          </ng-container>
+          <ng-container *ngSwitchCase="AUTH_STATUS.STATUS_LOCKED">
+            Your account is locked!
+          </ng-container>
+          <ng-container *ngSwitchDefault>
+            Please enter a valid username and password.
+            If you do not remember your username or password, please contact your Administrator.
+          </ng-container>
+        </ng-container>
+      </mat-error>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Username</mat-label>
+        <input matInput required
+               id="username"
+               name="username"
+               autocomplete="off"
+               autofocus
+               formControlName="username">
+        <mat-error *ngIf="loginForm.get('username').invalid">Username is required.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput required
+               id="password"
+               name="password"
+               type="password"
+               autocomplete="off"
+               formControlName="password">
+        <mat-error *ngIf="loginForm.get('password').invalid">Password is required.</mat-error>
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions class="login-actions">
+      <button mat-raised-button color="primary" [disabled]="loginForm.invalid || processing">
+        <mat-spinner [diameter]="24" *ngIf="processing"></mat-spinner>
+        Login
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</form>

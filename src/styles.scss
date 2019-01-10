@@ -1,0 +1,41 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import "variables";
+
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($swkroa-app-theme);
+
+// html, body { height: 100%; }
+body { margin: 0; font-family: 'Roboto', sans-serif; }
+
+.mat-button-wrapper > .mat-progress-spinner {
+  display: inline-block;
+}
+
+swkroa-app {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 57px;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: map_get($mat-grey, A200);
+}
+
+swkroa-navigation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+}

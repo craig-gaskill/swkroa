@@ -1,0 +1,13 @@
+<mat-card class="maintenance-container">
+  <mat-card-content>
+    <mat-nav-list class="left-nav">
+      <a mat-list-item routerLink="dictionaries" routerLinkActive="active">Dictionaries</a>
+      <a mat-list-item routerLink="documents"    routerLinkActive="active">Documents</a>
+      <a mat-list-item routerLink="system"       routerLinkActive="active">System</a>
+      <a mat-list-item routerLink="users"        routerLinkActive="active">Users</a>
+    </mat-nav-list>
+    <div class="right-content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,29 @@
+@import "~src/variables";
+
+.navbar-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: map_get($swkroa-app-primary, 500);
+  color: #ffffff;
+  min-height: 40px;
+}
+
+.navbar-header a {
+  background: inherit;
+  color: #ffffff;
+}
+
+.navbar-header a:hover {
+  background: map_get($swkroa-app-primary, 600);
+}
+
+.navbar-header a:hover[disabled] {
+  background: map_get($swkroa-app-primary, 500);
+}
+
+.navbar-header a[mat-flat-button].active {
+  border-bottom: 2px solid map_get($swkroa-app-accent, 500);
+  border-radius: 0;
+}

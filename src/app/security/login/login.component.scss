@@ -1,0 +1,27 @@
+:host {
+  width: 100%;
+  height: 75%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-card {
+  width: 30rem;
+}
+
+.login-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-error {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 1rem;
+}
+
+.login-actions {
+  display: flex;
+  justify-content: center;
+}
