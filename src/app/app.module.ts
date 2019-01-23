@@ -35,17 +35,17 @@ import {AuthenticationInterceptor} from './security/service/authentication.inter
   ],
   providers: [
     {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthenticationInterceptor,
+      multi: true
+    },
+    {
       provide: 'AuthenticationServiceConfig',
       useClass: ConfigureAuthenticationService
     },
     {
       provide: 'DictionaryServiceConfig',
       useClass: ConfigureDictionaryService
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthenticationInterceptor,
-      multi: true
     }
   ],
   bootstrap: [AppComponent]

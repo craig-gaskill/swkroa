@@ -10,7 +10,7 @@ import {JsonServiceUtil} from '../utils/JsonServiceUtils';
 /**
  * Service used to get dictionaries and their values. {@link DictionaryServiceConfig} must be implemented in the calling app.
  * To provide your implementation, add the following to your root module <code>providers</code> array:
- * <code>{ provide: "PlatformDictionaryServiceConfig", useClass: **Implemented class name** }</code>
+ * <code>{ provide: "DictionaryServiceConfig", useClass: **Implemented class name** }</code>
  */
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ import {JsonServiceUtil} from '../utils/JsonServiceUtils';
 export class DictionaryService {
   private readonly baseUrl: string;
 
-  constructor(private httpClient: HttpClient, @Inject('PlatformDictionaryServiceConfig') private config: DictionaryServiceConfig) {
+  constructor(private httpClient: HttpClient, @Inject('DictionaryServiceConfig') private config: DictionaryServiceConfig) {
     this.baseUrl = config.baseUrl;
   }
 

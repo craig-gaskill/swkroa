@@ -16,13 +16,10 @@ export class Dictionary {
   @JsonProperty('meaning', String)
   public meaning: string = undefined;
 
-  @JsonProperty('editable', Boolean)
-  public editable = true;
-
   @JsonProperty('active', Boolean)
   public active = true;
 
-  @JsonProperty('updatedCount', Number)
+  @JsonProperty('updateCount', Number)
   public updatedCount = 0;
 
   @JsonProperty('values', [DictionaryValue], true)

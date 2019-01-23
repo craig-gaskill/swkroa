@@ -1,3 +1,8 @@
 <p>
   Dictionaries Page
 </p>
+<ul>
+  <li *ngFor="let dictionary of dictionaries | async">
+    {{dictionary.display}}
+  </li>
+</ul>
