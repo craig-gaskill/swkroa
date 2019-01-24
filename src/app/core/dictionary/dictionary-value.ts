@@ -3,7 +3,7 @@ import {JsonObject, JsonProperty} from 'json2typescript';
 /**
  * JSON representation of a Dictionary's Value
  */
-@JsonObject
+@JsonObject('DictionaryValue')
 export class DictionaryValue {
   @JsonProperty('dictionaryValueId', Number, true)
   public dictionaryValueId: number = undefined;

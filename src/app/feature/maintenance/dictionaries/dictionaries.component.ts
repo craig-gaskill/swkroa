@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {Dictionary} from '../../../core/dictionary/dictionary';
-import {DictionaryService} from '../../../core/services/dictionary-service';
+import {DictionaryService} from '../../../core/dictionary/dictionary-service';
 
 @Component({
   templateUrl: './dictionaries.component.html',

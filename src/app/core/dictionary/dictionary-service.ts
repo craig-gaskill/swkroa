@@ -3,9 +3,9 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
-import {Dictionary} from '../dictionary/dictionary';
-import {DictionaryValue} from '../dictionary/dictionary-value';
-import {JsonServiceUtil} from '../utils/JsonServiceUtils';
+import {BaseService} from '../base.service';
+import {Dictionary} from './dictionary';
+import {DictionaryValue} from './dictionary-value';
 
 /**
  * Service used to get dictionaries and their values. {@link DictionaryServiceConfig} must be implemented in the calling app.
@@ -15,10 +15,13 @@ import {JsonServiceUtil} from '../utils/JsonServiceUtils';
 @Injectable({
   providedIn: 'root'
 })
-export class DictionaryService {
+export class DictionaryService extends BaseService {
   private readonly baseUrl: string;
 
-  constructor(private httpClient: HttpClient, @Inject('DictionaryServiceConfig') private config: DictionaryServiceConfig) {
+  constructor(private httpClient: HttpClient,
+              @Inject('DictionaryServiceConfig') private config: DictionaryServiceConfig
+  ) {
+    super();
     this.baseUrl = config.baseUrl;
   }
 
@@ -41,7 +44,9 @@ export class DictionaryService {
     }
 
     return this.httpClient.get<any>(this.baseUrl, {params: params})
-      .pipe(JsonServiceUtil.deserializeArray(Dictionary));
+      .pipe(
+        this.deserializeJsonArray(Dictionary)
+      );
   }
 
   /**
@@ -63,7 +68,9 @@ export class DictionaryService {
     const url = `${this.baseUrl}/${meaning}`;
 
     return this.httpClient.get<any>(url, {params: params})
-      .pipe(JsonServiceUtil.deserializeSingle(Dictionary));
+      .pipe(
+        this.deserializeJsonObject(Dictionary)
+      );
   }
 
   /**
@@ -78,10 +85,12 @@ export class DictionaryService {
     const sourceHeader = new HttpHeaders()
       .set('Source', source);
 
-    const body = JsonServiceUtil.serialize(dictionary);
+    const body = this.serializeJson(dictionary);
 
     return this.httpClient.post<Dictionary>(`${this.baseUrl}`, body, {headers: sourceHeader})
-      .pipe(JsonServiceUtil.deserializeSingle(Dictionary));
+      .pipe(
+        this.deserializeJsonObject(Dictionary)
+      );
   }
 
   /**
@@ -97,10 +106,12 @@ export class DictionaryService {
       .set('Source', source);
 
     const url  = `${this.baseUrl}/${dictionary.dictionaryId}`;
-    const body = JsonServiceUtil.serialize(dictionary);
+    const body = this.serializeJson(dictionary);
 
     return this.httpClient.put<Dictionary>(url, body, {headers: sourceHeader})
-      .pipe(JsonServiceUtil.deserializeSingle(Dictionary));
+      .pipe(
+        this.deserializeJsonObject(Dictionary)
+      );
   }
 
   /**
@@ -153,7 +164,9 @@ export class DictionaryService {
     const url = `${this.baseUrl}/${meaning}/values`;
 
     return this.httpClient.get<any>(url, {params: params})
-      .pipe(JsonServiceUtil.deserializeArray(DictionaryValue));
+      .pipe(
+        this.deserializeJsonArray(DictionaryValue)
+      );
   }
 
   /**
@@ -178,7 +191,9 @@ export class DictionaryService {
     const url = `${this.baseUrl}/${dictionaryMeaning}/values/${dictionaryValue}`;
 
     return this.httpClient.get<DictionaryValue>(url, {params: params})
-      .pipe(JsonServiceUtil.deserializeSingle(DictionaryValue));
+      .pipe(
+        this.deserializeJsonObject(DictionaryValue)
+      );
   }
 
   /**
@@ -195,10 +210,12 @@ export class DictionaryService {
       .set('Source', source);
 
     const url = `${this.baseUrl}/${meaning}/values`;
-    const body = JsonServiceUtil.serialize(dictionaryValue);
+    const body = this.serializeJson(dictionaryValue);
 
     return this.httpClient.post<DictionaryValue>(url, body, {headers: sourceHeader})
-      .pipe(JsonServiceUtil.deserializeSingle(DictionaryValue));
+      .pipe(
+        this.deserializeJsonObject(DictionaryValue)
+      );
   }
 
   /**
@@ -215,10 +232,12 @@ export class DictionaryService {
       .set('Source', source);
 
     const url = `${this.baseUrl}/${meaning}/values/${dictionaryValue.dictionaryValueId}`;
-    const body = JsonServiceUtil.serialize(dictionaryValue);
+    const body = this.serializeJson(dictionaryValue);
 
     return this.httpClient.put<DictionaryValue>(url, body, {headers: sourceHeader})
-      .pipe(JsonServiceUtil.deserializeSingle(DictionaryValue));
+      .pipe(
+        this.deserializeJsonObject(DictionaryValue)
+      );
   }
 
   /**
