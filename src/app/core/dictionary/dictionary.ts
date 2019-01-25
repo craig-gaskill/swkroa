@@ -20,7 +20,7 @@ export class Dictionary {
   public active = true;
 
   @JsonProperty('updateCount', Number)
-  public updatedCount = 0;
+  public updateCount = 0;
 
   @JsonProperty('values', [DictionaryValue], true)
   public values: DictionaryValue[] = undefined;
