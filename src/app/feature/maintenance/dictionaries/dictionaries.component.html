@@ -1,8 +1,10 @@
 <p>
   Dictionaries Page
 </p>
-<ul>
-  <li *ngFor="let dictionary of dictionaries | async">
-    {{dictionary.display}}
-  </li>
-</ul>
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let dictionary of dictionaries | async">
+    <mat-expansion-panel-header>
+      <mat-panel-title>{{dictionary.display}}</mat-panel-title>
+    </mat-expansion-panel-header>
+  </mat-expansion-panel>
+</mat-accordion>
