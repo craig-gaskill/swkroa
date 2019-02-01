@@ -31,7 +31,7 @@ export class DictionaryDetailComponent {
   ) { }
 
   private loadDictionaryValues(): void {
-    this._dictionaryService.getDictionaryValues(this.dictionaryMeaning)
+    this._dictionaryService.getDictionaryValues(this.dictionaryMeaning, 0, 0)
       .subscribe(
         values => {
           this.dictionaryValues = values;
