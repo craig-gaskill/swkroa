@@ -1,16 +1,20 @@
 <ng-container *ngIf="!editing">
-  {{dictionaryValue.display}}
-
-  <button mat-raised-button
-          color="primary"
-          (click)="onEdit()">
-    Edit
-  </button>
-  <button mat-raised-button
-          color="warn"
-          (click)="onDelete()">
-    Delete
-  </button>
+  <span>{{dictionaryValue.display}}</span>
+  <span flex></span>
+  <span class="button-group">
+    <button mat-raised-button
+            color="primary"
+            class="button-small"
+            (click)="onEdit()">
+      Edit
+    </button>
+    <button mat-raised-button
+            color="warn"
+            class="button-small"
+            (click)="onDelete()">
+      Delete
+    </button>
+  </span>
 </ng-container>
 <ng-container *ngIf="editing">
   <form [formGroup]="valueForm" (ngSubmit)="onSave()" novalidate>
@@ -28,15 +32,19 @@
              formControlName="meaning">
     </mat-form-field>
 
-    <button mat-raised-button
-            color="primary"
-            [disabled]="valueForm.invalid || valueForm.pristine"
-            (click)="onSave()">
-      Save
-    </button>
-    <button mat-raised-button
-            (click)="onCancel()">
-      Cancel
-    </button>
+    <span class="button-group">
+      <button mat-raised-button
+              color="primary"
+              class="button-small"
+              [disabled]="valueForm.invalid || valueForm.pristine"
+              (click)="onSave()">
+        Save
+      </button>
+      <button mat-raised-button
+              class="button-small"
+              (click)="onCancel()">
+        Cancel
+      </button>
+    </span>
   </form>
 </ng-container>
