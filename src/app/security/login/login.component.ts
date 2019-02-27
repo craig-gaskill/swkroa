@@ -1,11 +1,14 @@
 import {Component, OnInit} from '@angular/core';
+import {HttpErrorResponse} from '@angular/common/http';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
+import {finalize} from 'rxjs/operators';
+import {Observable} from 'rxjs';
 
 import {AuthenticationService} from '../service/authentication.service';
 import {AuthenticationStatus} from '../authentication-status.enum';
-import {finalize} from 'rxjs/operators';
-import {HttpErrorResponse} from '@angular/common/http';
+import {AppConfigurationService} from '../../app-configuration.service';
+import {AppConfiguration} from '../../app-configuration.model';
 
 @Component({
   selector: 'swkroa-login',
@@ -21,10 +24,13 @@ export class LoginComponent implements OnInit {
   public error: string;
   public processing = false;
 
+  public configuration$: Observable<AppConfiguration>;
+
   constructor(private _formBuilder: FormBuilder,
               private _route: ActivatedRoute,
               private _router: Router,
-              private _authenticationService: AuthenticationService
+              private _authenticationService: AuthenticationService,
+              private _appConfigService: AppConfigurationService
   ) {
     this.loginForm = this._formBuilder.group({
       username: [undefined, [Validators.required]],
@@ -35,6 +41,8 @@ export class LoginComponent implements OnInit {
   public ngOnInit() {
     // get return url from route parameters or default to '/'
     this._returnUrl = this._route.snapshot.queryParams['returnUrl'] || '/';
+
+    this.configuration$ = this._appConfigService.getAppConfiguration();
   }
 
   public onLogin() {

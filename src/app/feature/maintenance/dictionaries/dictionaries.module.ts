@@ -3,6 +3,7 @@ import {NgModule} from '@angular/core';
 import {SharedModule} from '../../../shared/shared.module';
 import {DictionariesComponent} from './dictionaries.component';
 import {DictionaryDetailComponent} from './dictionary-detail.component';
+import {DictionaryValueComponent} from './value/dictionary-value.component';
 
 @NgModule({
   imports: [
@@ -10,7 +11,8 @@ import {DictionaryDetailComponent} from './dictionary-detail.component';
   ],
   declarations: [
     DictionariesComponent,
-    DictionaryDetailComponent
+    DictionaryDetailComponent,
+    DictionaryValueComponent
   ],
   exports: [
     DictionariesComponent

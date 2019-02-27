@@ -11,6 +11,7 @@ import {DictionaryValue} from '../../../core/dictionary/dictionary-value';
 export class DictionaryDetailComponent {
   private _expanded = false;
   private _loaded   = false;
+  private _editing  = false;
 
   @Input()
   public dictionaryMeaning: string;
@@ -22,6 +23,14 @@ export class DictionaryDetailComponent {
     if (this._expanded && !this._loaded) {
       this.loadDictionaryValues();
     }
+  }
+
+  public get editing(): boolean {
+    return this._editing;
+  }
+
+  public set editing(editing: boolean) {
+    this._editing = editing;
   }
 
   public dictionaryValues: DictionaryValue[];

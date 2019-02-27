@@ -1,0 +1,42 @@
+<ng-container *ngIf="!editing">
+  {{dictionaryValue.display}}
+
+  <button mat-raised-button
+          color="primary"
+          (click)="onEdit()">
+    Edit
+  </button>
+  <button mat-raised-button
+          color="warn"
+          (click)="onDelete()">
+    Delete
+  </button>
+</ng-container>
+<ng-container *ngIf="editing">
+  <form [formGroup]="valueForm" (ngSubmit)="onSave()" novalidate>
+    <mat-form-field [appearance]="(configuration$ | async)?.inputAppearance">
+      <mat-label>Display</mat-label>
+      <input matInput required
+             name="display"
+             formControlName="display">
+    </mat-form-field>
+
+    <mat-form-field [appearance]="(configuration$ | async)?.inputAppearance">
+      <mat-label>Meaning</mat-label>
+      <input matInput required
+             name="meaning"
+             formControlName="meaning">
+    </mat-form-field>
+
+    <button mat-raised-button
+            color="primary"
+            [disabled]="valueForm.invalid || valueForm.pristine"
+            (click)="onSave()">
+      Save
+    </button>
+    <button mat-raised-button
+            (click)="onCancel()">
+      Cancel
+    </button>
+  </form>
+</ng-container>
