@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
@@ -12,14 +11,8 @@ import {AuthenticationService} from '../security/service/authentication.service'
   styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent {
-  constructor(private _breakpointObserver: BreakpointObserver,
-              private _authenticationService: AuthenticationService
+  constructor(private _authenticationService: AuthenticationService
   ) {}
-
-  public isHandset$: Observable<boolean> = this._breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(
-      map(result => result.matches)
-    );
 
   public currentUser$: Observable<AuthorizedUser> = this._authenticationService.currentUser
     .pipe(
