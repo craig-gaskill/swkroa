@@ -11,10 +11,12 @@ import {HomeModule} from './feature/home/home.module';
 import {ConfigureAuthenticationService} from './core/config/authentication-service.config';
 import {ConfigureDictionaryService} from './core/config/dictionary-service.config';
 
+import {AuthenticationInterceptor} from './security/interceptor/authentication.interceptor';
+import {RefreshInterceptor} from './security/interceptor/refresh.interceptor';
+
 import {AppComponent} from './app.component';
 import {NavigationComponent} from './navigation/navigation.component';
 import {LoginComponent} from './security/login/login.component';
-import {AuthenticationInterceptor} from './security/service/authentication.interceptor';
 
 @NgModule({
   imports: [
@@ -36,6 +38,11 @@ import {AuthenticationInterceptor} from './security/service/authentication.inter
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthenticationInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RefreshInterceptor,
       multi: true
     },
     {

@@ -9,6 +9,7 @@ import {AppConfiguration} from '../../../../app-configuration.model';
 @Component({
   selector: 'swkroa-dictionary-value',
   templateUrl: './dictionary-value.component.html',
+  styleUrls: ['./dictionary-value.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DictionaryValueComponent implements OnInit {
