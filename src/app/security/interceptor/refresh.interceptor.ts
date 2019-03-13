@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {BehaviorSubject, Observable, throwError} from 'rxjs';
-import {catchError, filter, map, switchMap, take} from 'rxjs/operators';
+import {catchError, filter, switchMap, take} from 'rxjs/operators';
 
 import {AuthenticationService} from '../service/authentication.service';
 
@@ -10,7 +10,7 @@ export class RefreshInterceptor implements HttpInterceptor {
   private _refreshTokenInProgress = false;
   // Refresh Token Subject tracks the current token, or is null if no token is currently
   // available (e.g. refresh pending).
-  private _refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(undefined);
+  private _refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
   constructor(private _authService: AuthenticationService) { }
 
@@ -19,15 +19,21 @@ export class RefreshInterceptor implements HttpInterceptor {
       .pipe(
         catchError(err => {
           if (err.status !== 401) {
+            // the error wasn't an UNAUTHORIZED error
             return throwError(err);
-          } else if (req.url.includes('auth')) {
+          }
+
+          if (req.url.includes('auth')) {
+            // the error occurred when authenticating (or refreshing the authentication)
             this._authService.logout();
             return throwError(err);
-          } else if (this._refreshTokenInProgress) {
+          }
+
+          if (this._refreshTokenInProgress) {
             // we are in the process of requesting a new token
             return this._refreshTokenSubject
               .pipe(
-                filter(result => result !== undefined),
+                filter(result => result !== null),
                 take(1),
                 switchMap(() => next.handle(this.addAuthenticationToken(req)))
               );
@@ -36,7 +42,7 @@ export class RefreshInterceptor implements HttpInterceptor {
             this._refreshTokenInProgress = true;
 
             // set the refreshTokenSubject to null so that subsequent API calls will wait until the new token has been retrieved
-            this._refreshTokenSubject.next(undefined);
+            this._refreshTokenSubject.next(null);
 
             this._authService.refresh()
               .pipe(
@@ -70,7 +76,8 @@ export class RefreshInterceptor implements HttpInterceptor {
     // we clone the request, because the original request is immutable
     return request.clone({
       setHeaders: {
-        Authorization: token
+        Authorization: `Bearer ${token}`
       }
     });
-  }}
+  }
+}

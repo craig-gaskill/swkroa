@@ -40,11 +40,11 @@ import {LoginComponent} from './security/login/login.component';
       useClass: AuthenticationInterceptor,
       multi: true
     },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: RefreshInterceptor,
-      multi: true
-    },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: RefreshInterceptor,
+    //   multi: true
+    // },
     {
       provide: 'AuthenticationServiceConfig',
       useClass: ConfigureAuthenticationService

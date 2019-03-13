@@ -1,5 +1,5 @@
 import {Inject, Injectable, OnDestroy} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
@@ -65,6 +65,14 @@ export class AuthenticationService implements OnDestroy {
   }
 
   /**
+   * @return If there is a current user logged in and they have an expired JWT.
+   */
+  public get isExpired(): boolean {
+    const authenticatedUser = this._userSubject.getValue();
+    return !!(authenticatedUser && authenticatedUser.isExpired);
+  }
+
+  /**
    * @return If there is a current user logged in and if they must change their password.
    */
   public get mustChangePassword(): boolean {
@@ -102,10 +110,13 @@ export class AuthenticationService implements OnDestroy {
   /**
    * Will attempt to refresh the user's access token using the current refresh token.
    */
-  public refresh() {
+  public refresh(): Observable<AuthorizedUser> {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'text/plain');
+
     const token = this.refreshToken;
 
-    return this._httpClient.post<LoginResponse>(`${this._config.baseUrl}/refresh`, token)
+    return this._httpClient.post<LoginResponse>(`${this._config.baseUrl}/refresh`, token, {headers: headers})
       .pipe(
         map(response => this.processResponse(response))
       );
