@@ -18,19 +18,19 @@
 </ng-container>
 <ng-container *ngIf="editing">
   <form [formGroup]="valueForm" (ngSubmit)="onSave()" novalidate>
-    <mat-form-field [appearance]="(configuration$ | async)?.inputAppearance">
-      <mat-label>Display</mat-label>
-      <input matInput required
-             name="display"
-             formControlName="display">
-    </mat-form-field>
+    <cagst-input id="display"
+                 name="display"
+                 label="Display"
+                 [required]="true"
+                 formControlName="display">
+    </cagst-input>
 
-    <mat-form-field [appearance]="(configuration$ | async)?.inputAppearance">
-      <mat-label>Meaning</mat-label>
-      <input matInput required
-             name="meaning"
-             formControlName="meaning">
-    </mat-form-field>
+    <cagst-input id="meaning"
+                 name="meaning"
+                 label="Meaning"
+                 [required]="true"
+                 formControlName="meaning">
+    </cagst-input>
 
     <span class="button-group">
       <button mat-raised-button

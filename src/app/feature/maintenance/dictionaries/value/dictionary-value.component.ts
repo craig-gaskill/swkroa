@@ -1,10 +1,7 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import {DictionaryValue} from '../../../../core/dictionary/dictionary-value';
-import {AppConfigurationService} from '../../../../app-configuration.service';
-import {Observable} from 'rxjs';
-import {AppConfiguration} from '../../../../app-configuration.model';
 
 @Component({
   selector: 'swkroa-dictionary-value',
@@ -12,7 +9,7 @@ import {AppConfiguration} from '../../../../app-configuration.model';
   styleUrls: ['./dictionary-value.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DictionaryValueComponent implements OnInit {
+export class DictionaryValueComponent {
   private _dictionaryValue: DictionaryValue;
 
   @Input() public editing = false;
@@ -30,20 +27,13 @@ export class DictionaryValueComponent implements OnInit {
     });
   }
 
-  public configuration$: Observable<AppConfiguration>;
   public valueForm: FormGroup;
 
-  constructor(private _formBuilder: FormBuilder,
-              private _appConfigService: AppConfigurationService
-  ) {
+  constructor(private _formBuilder: FormBuilder) {
     this.valueForm = this._formBuilder.group({
       display: [undefined, [Validators.required]],
       meaning: [undefined, [Validators.required]]
     });
-  }
-
-  public ngOnInit(): void {
-    this.configuration$ = this._appConfigService.getAppConfiguration();
   }
 
   public onEdit() {

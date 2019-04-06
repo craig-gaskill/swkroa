@@ -25,27 +25,22 @@
         </ng-container>
       </mat-error>
 
-      <mat-form-field [appearance]="(configuration$ | async)?.inputAppearance">
-        <mat-label>Username</mat-label>
-        <input matInput required
-               id="username"
-               name="username"
-               autocomplete="off"
-               autofocus
-               formControlName="username">
-        <mat-error *ngIf="loginForm.get('username').invalid">Username is required.</mat-error>
-      </mat-form-field>
+      <cagst-input id="username"
+                   name="username"
+                   label="Username"
+                   [required]="true"
+                   [autocomplete]="false"
+                   formControlName="username">
+      </cagst-input>
 
-      <mat-form-field [appearance]="(configuration$ | async)?.inputAppearance">
-        <mat-label>Password</mat-label>
-        <input matInput required
-               id="password"
-               name="password"
-               type="password"
-               autocomplete="off"
-               formControlName="password">
-        <mat-error *ngIf="loginForm.get('password').invalid">Password is required.</mat-error>
-      </mat-form-field>
+      <cagst-input id="password"
+                   name="password"
+                   label="Password"
+                   type="password"
+                   [required]="true"
+                   [autocomplete]="false"
+                   formControlName="password">
+      </cagst-input>
     </mat-card-content>
     <mat-card-actions class="login-actions">
       <button mat-raised-button color="primary" [disabled]="loginForm.invalid || processing">

@@ -22,6 +22,8 @@
     "@angular/platform-browser": "~7.2.0",
     "@angular/platform-browser-dynamic": "~7.2.0",
     "@angular/router": "~7.2.0",
+    "@cagst/ngx-components": "file:../ngx-cagst/dist/cagst-ngx-components-2.0.0.tgz",
+    "@cagst/ngx-configuration": "file:../ngx-cagst/dist/cagst-ngx-configuration-2.0.0.tgz",
     "core-js": "^2.5.4",
     "hammerjs": "^2.0.8",
     "json2typescript": "^1.0.6",
