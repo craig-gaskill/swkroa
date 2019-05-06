@@ -1,13 +1,13 @@
 <form [formGroup]="loginForm"
       (ngSubmit)="onLogin()"
       novalidate>
-  <mat-card [attr.role]="'form'" class="login-card">
+  <mat-card [attr.role]="'form'">
     <mat-card-header>
       <mat-card-title>Welcome to SWKROA</mat-card-title>
       <mat-card-subtitle>Please Login</mat-card-subtitle>
     </mat-card-header>
-    <mat-card-content class="login-content">
-      <mat-error *ngIf="error" class="login-error">
+    <mat-card-content>
+      <mat-error *ngIf="error">
         <ng-container [ngSwitch]="error">
           <ng-container *ngSwitchCase="AUTH_STATUS.STATUS_DISABLED">
             Your account has been disabled!
@@ -30,6 +30,7 @@
                    label="Username"
                    [required]="true"
                    [autocomplete]="false"
+                   [autofocus]="true"
                    formControlName="username">
       </cagst-input>
 
@@ -42,7 +43,8 @@
                    formControlName="password">
       </cagst-input>
     </mat-card-content>
-    <mat-card-actions class="login-actions">
+
+    <mat-card-actions>
       <button mat-raised-button color="primary" [disabled]="loginForm.invalid || processing">
         <mat-spinner [diameter]="24" *ngIf="processing"></mat-spinner>
         Login
