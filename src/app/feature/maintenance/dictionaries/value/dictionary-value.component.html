@@ -1,3 +1,4 @@
+<!--
 <ng-container *ngIf="!editing">
   <div class="column">{{dictionaryValue.display}}</div>
   <div class="column">{{dictionaryValue.meaning}}</div>
@@ -17,11 +18,13 @@
   </div>
 </ng-container>
 <ng-container *ngIf="editing">
+-->
   <form [formGroup]="valueForm" (ngSubmit)="onSave()" novalidate>
     <cagst-input id="display"
                  name="display"
                  label="Display"
                  [required]="true"
+                 [editing]="editing"
                  formControlName="display">
     </cagst-input>
 
@@ -29,6 +32,7 @@
                  name="meaning"
                  label="Meaning"
                  [required]="true"
+                 [editing]="editing"
                  formControlName="meaning">
     </cagst-input>
 
@@ -47,4 +51,6 @@
       </button>
     </span>
   </form>
+<!--
 </ng-container>
+-->

@@ -8,6 +8,15 @@ import {Dictionary} from './dictionary';
 import {DictionaryValue} from './dictionary-value';
 
 /**
+ * Interface used by consumers of this API to configure the URL of the application-specific endpoint.
+ * When implementing, set {@code baseUrl} to the API base with the dictionary endpoint appended.
+ * It is recommended to store this in an {@code environment} file.
+ */
+export interface DictionaryServiceConfig {
+  baseUrl: string;
+}
+
+/**
  * Service used to get dictionaries and their values. {@link DictionaryServiceConfig} must be implemented in the calling app.
  * To provide your implementation, add the following to your root module <code>providers</code> array:
  * <code>{ provide: "DictionaryServiceConfig", useClass: **Implemented class name** }</code>
@@ -43,7 +52,7 @@ export class DictionaryService extends BaseService {
       params = params.set('name', name);
     }
 
-    return this.httpClient.get<any>(this.baseUrl, {params: params})
+    return this.httpClient.get<any>(this.baseUrl, {params})
       .pipe(
         this.deserializeJsonArray(Dictionary)
       );
@@ -67,7 +76,7 @@ export class DictionaryService extends BaseService {
 
     const url = `${this.baseUrl}/${meaning}`;
 
-    return this.httpClient.get<any>(url, {params: params})
+    return this.httpClient.get<any>(url, {params})
       .pipe(
         this.deserializeJsonObject(Dictionary)
       );
@@ -82,12 +91,12 @@ export class DictionaryService extends BaseService {
    * @returns An {@link Observable} that returns the added {@link Dictionary}, null if not added.
    */
   public createDictionary(dictionary: Dictionary, source: string): Observable<Dictionary> {
-    const sourceHeader = new HttpHeaders()
+    const headers = new HttpHeaders()
       .set('Source', source);
 
     const body = this.serializeJson(dictionary);
 
-    return this.httpClient.post<Dictionary>(`${this.baseUrl}`, body, {headers: sourceHeader})
+    return this.httpClient.post<Dictionary>(`${this.baseUrl}`, body, {headers})
       .pipe(
         this.deserializeJsonObject(Dictionary)
       );
@@ -102,13 +111,13 @@ export class DictionaryService extends BaseService {
    * @returns An {@link Observable} that returns the updated {@link Dictionary}, null if not added.
    */
   public updateDictionary(dictionary: Dictionary, source: string): Observable<Dictionary> {
-    const sourceHeader = new HttpHeaders()
+    const headers = new HttpHeaders()
       .set('Source', source);
 
     const url  = `${this.baseUrl}/${dictionary.dictionaryId}`;
     const body = this.serializeJson(dictionary);
 
-    return this.httpClient.put<Dictionary>(url, body, {headers: sourceHeader})
+    return this.httpClient.put<Dictionary>(url, body, {headers})
       .pipe(
         this.deserializeJsonObject(Dictionary)
       );
@@ -123,12 +132,12 @@ export class DictionaryService extends BaseService {
    * @returns An {@link Observable} that returns a boolean to indicate if the delete was successful.
    */
   public deleteDictionary(dictionary: Dictionary, source: string): Observable<boolean> {
-    const sourceHeader = new HttpHeaders()
+    const headers = new HttpHeaders()
       .set('Source', source);
 
     const url  = `${this.baseUrl}/${dictionary.dictionaryId}`;
 
-    return this.httpClient.delete<boolean>(url, {headers: sourceHeader, observe: 'response'})
+    return this.httpClient.delete<boolean>(url, {headers, observe: 'response'})
       .pipe(map(response => response.status === 204));
   }
 
@@ -163,7 +172,7 @@ export class DictionaryService extends BaseService {
 
     const url = `${this.baseUrl}/${meaning}/values`;
 
-    return this.httpClient.get<any>(url, {params: params})
+    return this.httpClient.get<any>(url, {params})
       .pipe(
         this.deserializeJsonArray(DictionaryValue)
       );
@@ -190,7 +199,7 @@ export class DictionaryService extends BaseService {
 
     const url = `${this.baseUrl}/${dictionaryMeaning}/values/${dictionaryValue}`;
 
-    return this.httpClient.get<DictionaryValue>(url, {params: params})
+    return this.httpClient.get<DictionaryValue>(url, {params})
       .pipe(
         this.deserializeJsonObject(DictionaryValue)
       );
@@ -206,13 +215,13 @@ export class DictionaryService extends BaseService {
    * @returns An {@link Observable} that returns the added {@link DictionaryValue}, null if not added.
    */
   public createDictionaryValue(meaning: string, dictionaryValue: DictionaryValue, source: string): Observable<DictionaryValue> {
-    const sourceHeader = new HttpHeaders()
+    const headers = new HttpHeaders()
       .set('Source', source);
 
     const url = `${this.baseUrl}/${meaning}/values`;
     const body = this.serializeJson(dictionaryValue);
 
-    return this.httpClient.post<DictionaryValue>(url, body, {headers: sourceHeader})
+    return this.httpClient.post<DictionaryValue>(url, body, {headers})
       .pipe(
         this.deserializeJsonObject(DictionaryValue)
       );
@@ -228,13 +237,13 @@ export class DictionaryService extends BaseService {
    * @returns An {@link Observable} that returns the updated {@link DictionaryValue}, null if not added.
    */
   public updateDictionaryValue(meaning: string, dictionaryValue: DictionaryValue, source: string): Observable<DictionaryValue> {
-    const sourceHeader = new HttpHeaders()
+    const headers = new HttpHeaders()
       .set('Source', source);
 
     const url = `${this.baseUrl}/${meaning}/values/${dictionaryValue.dictionaryValueId}`;
     const body = this.serializeJson(dictionaryValue);
 
-    return this.httpClient.put<DictionaryValue>(url, body, {headers: sourceHeader})
+    return this.httpClient.put<DictionaryValue>(url, body, {headers})
       .pipe(
         this.deserializeJsonObject(DictionaryValue)
       );
@@ -250,21 +259,12 @@ export class DictionaryService extends BaseService {
    * @returns An {@link Observable} that returns whether or not the delete was successful.
    */
   public deleteDictionaryValue(meaning: string, dictionaryValue: DictionaryValue, source: string): Observable<boolean> {
-    const sourceHeader = new HttpHeaders()
+    const headers = new HttpHeaders()
       .set('Source', source);
 
     const url = `${this.baseUrl}/${meaning}/values/${dictionaryValue.dictionaryValueId}`;
 
-    return this.httpClient.delete<boolean>(url, {headers: sourceHeader, observe: 'response'})
+    return this.httpClient.delete<boolean>(url, {headers, observe: 'response'})
       .pipe(map(response => response.status === 204));
   }
-}
-
-/**
- * Interface used by consumers of this API to configure the URL of the application-specific endpoint.
- * When implementing, set {@code baseUrl} to the API base with the dictionary endpoint appended.
- * It is recommended to store this in an {@code environment} file.
- */
-export interface DictionaryServiceConfig {
-  baseUrl: string;
 }

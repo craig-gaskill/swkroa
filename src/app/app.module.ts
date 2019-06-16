@@ -12,7 +12,6 @@ import {ConfigureAuthenticationService} from './core/config/authentication-servi
 import {ConfigureDictionaryService} from './core/config/dictionary-service.config';
 
 import {AuthenticationInterceptor} from './security/interceptor/authentication.interceptor';
-import {RefreshInterceptor} from './security/interceptor/refresh.interceptor';
 
 import {AppComponent} from './app.component';
 import {NavigationComponent} from './navigation/navigation.component';
@@ -40,11 +39,6 @@ import {LoginComponent} from './security/login/login.component';
       useClass: AuthenticationInterceptor,
       multi: true
     },
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: RefreshInterceptor,
-    //   multi: true
-    // },
     {
       provide: 'AuthenticationServiceConfig',
       useClass: ConfigureAuthenticationService
