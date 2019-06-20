@@ -1,7 +1,11 @@
-<mat-list>
-  <mat-list-item *ngFor="let value of dictionaryValues">
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let value of dictionaryValues">
+    <mat-expansion-panel-header>
+      <mat-panel-title>{{value.display}}</mat-panel-title>
+    </mat-expansion-panel-header>
+
     <swkroa-dictionary-value [dictionaryValue]="value"
                              [editing]="editing">
     </swkroa-dictionary-value>
-  </mat-list-item>
-</mat-list>
+  </mat-expansion-panel>
+</mat-accordion>
