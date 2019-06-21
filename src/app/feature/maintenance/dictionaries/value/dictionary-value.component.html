@@ -18,15 +18,29 @@
   </div>
 
   <div class="button-row">
-    <button mat-raised-button
-            color="primary"
-            [disabled]="valueForm.invalid || valueForm.pristine"
-            (click)="onSave()">
-      Save
-    </button>
-    <button mat-raised-button
-            (click)="onCancel()">
-      Cancel
-    </button>
+    <ng-container *ngIf="!editing">
+      <button mat-raised-button
+              color="primary"
+              (click)="onEdit()">
+        Edit
+      </button>
+      <button mat-raised-button
+              (click)="onDelete()">
+        Delete
+      </button>
+    </ng-container>
+
+    <ng-container *ngIf="editing">
+      <button mat-raised-button
+              color="primary"
+              [disabled]="valueForm.invalid || valueForm.pristine"
+              (click)="onSave()">
+        Save
+      </button>
+      <button mat-raised-button
+              (click)="onCancel()">
+        Cancel
+      </button>
+    </ng-container>
   </div>
 </form>
