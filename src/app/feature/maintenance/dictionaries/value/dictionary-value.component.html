@@ -1,32 +1,32 @@
 <form [formGroup]="valueForm" (ngSubmit)="onSave()" novalidate>
-  <cagst-input id="display"
-               name="display"
-               label="Display"
-               [required]="true"
-               [editing]="editing"
-               formControlName="display">
-  </cagst-input>
+  <div class="row">
+    <cagst-input id="display"
+                 name="display"
+                 label="Display"
+                 [required]="true"
+                 [editing]="editing"
+                 formControlName="display">
+    </cagst-input>
 
-  <cagst-input id="meaning"
-               name="meaning"
-               label="Meaning"
-               [required]="true"
-               [editing]="editing && !dictionaryValue.dictionaryValueId"
-               formControlName="meaning">
-  </cagst-input>
+    <cagst-input id="meaning"
+                 name="meaning"
+                 label="Meaning"
+                 [required]="true"
+                 [editing]="editing && !dictionaryValue.dictionaryValueId"
+                 formControlName="meaning">
+    </cagst-input>
+  </div>
 
-  <span class="button-group">
+  <div class="button-row">
     <button mat-raised-button
             color="primary"
-            class="button-small"
             [disabled]="valueForm.invalid || valueForm.pristine"
             (click)="onSave()">
       Save
     </button>
     <button mat-raised-button
-            class="button-small"
             (click)="onCancel()">
       Cancel
     </button>
-  </span>
+  </div>
 </form>
