@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-import {CagstInputModule} from '@cagst/ngx-components';
+import {CgtConfirmationModule, CgtInputModule} from '@cagst/ngx-components';
 
 import {SharedMaterialModule} from './shared-material.module';
 
@@ -13,7 +13,8 @@ import {SharedMaterialModule} from './shared-material.module';
     ReactiveFormsModule,
     SharedMaterialModule,
 
-    CagstInputModule
+    CgtConfirmationModule,
+    CgtInputModule
   ],
   exports: [
     CommonModule,
@@ -21,7 +22,8 @@ import {SharedMaterialModule} from './shared-material.module';
     ReactiveFormsModule,
     SharedMaterialModule,
 
-    CagstInputModule
+    CgtConfirmationModule,
+    CgtInputModule
   ]
 })
 export class SharedModule { }

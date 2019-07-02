@@ -23,6 +23,7 @@
     "@angular/router": "~8.0.1",
     "@cagst/ngx-components": "file:../ngx-cagst/dist/cagst-ngx-components-2.0.0.tgz",
     "@cagst/ngx-configuration": "file:../ngx-cagst/dist/cagst-ngx-configuration-2.0.0.tgz",
+    "@cagst/ngx-utilities": "file:../ngx-cagst/dist/cagst-ngx-utilities-2.0.0.tgz",
     "hammerjs": "^2.0.8",
     "json2typescript": "^1.0.6",
     "rxjs": "~6.4.0",

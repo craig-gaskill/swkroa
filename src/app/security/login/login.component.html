@@ -25,23 +25,27 @@
         </ng-container>
       </mat-error>
 
-      <cagst-input id="username"
-                   name="username"
-                   label="Username"
-                   [required]="true"
-                   [autocomplete]="false"
-                   [autofocus]="true"
-                   formControlName="username">
-      </cagst-input>
+      <cgt-input id="username"
+                 name="username"
+                 label="Username"
+                 [editing]="true"
+                 [autofocus]="true"
+                 [required]="true"
+                 requiredErrorMessage="A username is required."
+                 autocomplete="username"
+                 formControlName="username">
+      </cgt-input>
 
-      <cagst-input id="password"
-                   name="password"
-                   label="Password"
-                   type="password"
-                   [required]="true"
-                   [autocomplete]="false"
-                   formControlName="password">
-      </cagst-input>
+      <cgt-input id="password"
+                 name="password"
+                 label="Password"
+                 type="password"
+                 [editing]="true"
+                 [required]="true"
+                 requiredErrorMessage="A password is required."
+                 autocomplete="current-password"
+                 formControlName="password">
+      </cgt-input>
     </mat-card-content>
 
     <mat-card-actions>
