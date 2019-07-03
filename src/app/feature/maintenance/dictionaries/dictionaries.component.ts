@@ -23,4 +23,11 @@ export class DictionariesComponent implements OnInit {
   public onExpandDictionary(meaning: string): void {
     this.expandedMeaning = meaning;
   }
+
+  public onCollapsedDictionary(): void {
+    this.expandedMeaning = undefined;
+  }
+
+  public onAddDictionaryValue(): void {
+  }
 }

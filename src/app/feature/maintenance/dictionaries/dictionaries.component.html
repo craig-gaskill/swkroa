@@ -1,7 +1,8 @@
 <h4>DICTIONARIES</h4>
 <mat-accordion>
   <mat-expansion-panel *ngFor="let dictionary of dictionaries | async"
-                       (opened)="onExpandDictionary(dictionary.meaning)">
+                       (opened)="onExpandDictionary(dictionary.meaning)"
+                       (closed)="onCollapsedDictionary()">
     <mat-expansion-panel-header>
       <mat-panel-title>{{dictionary.display}}</mat-panel-title>
     </mat-expansion-panel-header>
@@ -9,5 +10,9 @@
     <swkroa-dictionary-detail [dictionaryMeaning]="dictionary.meaning"
                               [expanded]="expandedMeaning === dictionary.meaning">
     </swkroa-dictionary-detail>
+
+    <mat-action-row>
+      <button mat-button color="accent" (click)="onAddDictionaryValue()">Add {{dictionary.display}}</button>
+    </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
