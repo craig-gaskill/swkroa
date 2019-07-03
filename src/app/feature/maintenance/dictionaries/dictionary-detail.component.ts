@@ -13,6 +13,8 @@ export class DictionaryDetailComponent {
   private _loaded   = false;
   private _editing  = false;
 
+  public dictionaryValues: DictionaryValue[];
+
   @Input()
   public dictionaryMeaning: string;
 
@@ -33,8 +35,6 @@ export class DictionaryDetailComponent {
     this._editing = editing;
   }
 
-  public dictionaryValues: DictionaryValue[];
-
   constructor(private _dictionaryService: DictionaryService,
               private _changeDetectorRef: ChangeDetectorRef
   ) { }
@@ -43,10 +43,39 @@ export class DictionaryDetailComponent {
     this._dictionaryService.getDictionaryValues(this.dictionaryMeaning, 0, 0)
       .subscribe(
         values => {
-          this.dictionaryValues = values;
+          this.dictionaryValues = [...values];
           this._changeDetectorRef.markForCheck();
         },
         () => console.log('Failed to load Dictionary Values for [' + this.dictionaryMeaning + ']'),
         () => this._loaded = true);
+  }
+
+  public onCreated(dictionaryValue: DictionaryValue): void {
+    const values: DictionaryValue[] = [...this.dictionaryValues];
+    values.push(dictionaryValue);
+    values.sort((lhs, rhs) => rhs.display.localeCompare(lhs.display));
+
+    this.dictionaryValues = values;
+  }
+
+  public onDeleted(dictionaryValue: DictionaryValue): void {
+    const values: DictionaryValue[] = [...this.dictionaryValues];
+    const idx = this.dictionaryValues.findIndex(dv => dv.dictionaryValueId === dictionaryValue.dictionaryValueId);
+    if (idx !== -1) {
+      values.splice(idx, 1);
+    }
+
+    this.dictionaryValues = values;
+  }
+
+  public onUpdated(dictionaryValue: DictionaryValue): void {
+    const values: DictionaryValue[] = [...this.dictionaryValues];
+    const idx = this.dictionaryValues.findIndex(dv => dv.dictionaryValueId === dictionaryValue.dictionaryValueId);
+    if (idx !== -1) {
+      values[idx] = dictionaryValue;
+      values.sort((lhs, rhs) => rhs.display.localeCompare(lhs.display));
+    }
+
+    this.dictionaryValues = values;
   }
 }

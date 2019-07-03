@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+
 import {DictionaryServiceConfig} from '../dictionary/dictionary-service';
 import {environment} from '../../../environments/environment';
 

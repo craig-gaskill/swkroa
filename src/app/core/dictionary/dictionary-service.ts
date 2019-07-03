@@ -1,7 +1,7 @@
 import {Inject, Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {catchError, map} from 'rxjs/operators';
 
 import {BaseService} from '../base.service';
 import {Dictionary} from './dictionary';
@@ -54,7 +54,8 @@ export class DictionaryService extends BaseService {
 
     return this.httpClient.get<any>(this.baseUrl, {params})
       .pipe(
-        this.deserializeJsonArray(Dictionary)
+        this.deserializeJsonArray(Dictionary),
+        catchError(this.handleError)
       );
   }
 
@@ -78,7 +79,8 @@ export class DictionaryService extends BaseService {
 
     return this.httpClient.get<any>(url, {params})
       .pipe(
-        this.deserializeJsonObject(Dictionary)
+        this.deserializeJsonObject(Dictionary),
+        catchError(this.handleError)
       );
   }
 
@@ -98,7 +100,8 @@ export class DictionaryService extends BaseService {
 
     return this.httpClient.post<Dictionary>(`${this.baseUrl}`, body, {headers})
       .pipe(
-        this.deserializeJsonObject(Dictionary)
+        this.deserializeJsonObject(Dictionary),
+        catchError(this.handleError)
       );
   }
 
@@ -119,7 +122,8 @@ export class DictionaryService extends BaseService {
 
     return this.httpClient.put<Dictionary>(url, body, {headers})
       .pipe(
-        this.deserializeJsonObject(Dictionary)
+        this.deserializeJsonObject(Dictionary),
+        catchError(this.handleError)
       );
   }
 
@@ -138,7 +142,10 @@ export class DictionaryService extends BaseService {
     const url  = `${this.baseUrl}/${dictionary.dictionaryId}`;
 
     return this.httpClient.delete<boolean>(url, {headers, observe: 'response'})
-      .pipe(map(response => response.status === 204));
+      .pipe(
+        map(response => response.status === 204),
+        catchError(this.handleError)
+      );
   }
 
   /**
@@ -174,7 +181,8 @@ export class DictionaryService extends BaseService {
 
     return this.httpClient.get<any>(url, {params})
       .pipe(
-        this.deserializeJsonArray(DictionaryValue)
+        this.deserializeJsonArray(DictionaryValue),
+        catchError(this.handleError)
       );
   }
 
@@ -201,7 +209,8 @@ export class DictionaryService extends BaseService {
 
     return this.httpClient.get<DictionaryValue>(url, {params})
       .pipe(
-        this.deserializeJsonObject(DictionaryValue)
+        this.deserializeJsonObject(DictionaryValue),
+        catchError(this.handleError)
       );
   }
 
@@ -223,7 +232,8 @@ export class DictionaryService extends BaseService {
 
     return this.httpClient.post<DictionaryValue>(url, body, {headers})
       .pipe(
-        this.deserializeJsonObject(DictionaryValue)
+        this.deserializeJsonObject(DictionaryValue),
+        catchError(this.handleError)
       );
   }
 
@@ -245,7 +255,8 @@ export class DictionaryService extends BaseService {
 
     return this.httpClient.put<DictionaryValue>(url, body, {headers})
       .pipe(
-        this.deserializeJsonObject(DictionaryValue)
+        this.deserializeJsonObject(DictionaryValue),
+        catchError(this.handleError)
       );
   }
 
@@ -265,6 +276,9 @@ export class DictionaryService extends BaseService {
     const url = `${this.baseUrl}/${meaning}/values/${dictionaryValue.dictionaryValueId}`;
 
     return this.httpClient.delete<boolean>(url, {headers, observe: 'response'})
-      .pipe(map(response => response.status === 204));
+      .pipe(
+        map(response => response.status === 204),
+        catchError(this.handleError)
+      );
   }
 }

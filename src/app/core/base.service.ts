@@ -1,5 +1,7 @@
 import {JsonConvert, OperationMode, ValueCheckingMode} from 'json2typescript';
 import {map} from 'rxjs/operators';
+import {HttpErrorResponse} from '@angular/common/http';
+import {throwError} from 'rxjs';
 
 export abstract class BaseService {
   private readonly JSON_CONVERT = new JsonConvert(OperationMode.ENABLE, ValueCheckingMode.DISALLOW_NULL);
@@ -37,5 +39,10 @@ export abstract class BaseService {
    */
   public serializeJson(data: any): any {
     return this.JSON_CONVERT.serialize(data);
+  }
+
+  public handleError(error: HttpErrorResponse) {
+    console.error(error);
+    return throwError(error);
   }
 }

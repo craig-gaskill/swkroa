@@ -4,8 +4,12 @@
       <mat-panel-title>{{value.display}}</mat-panel-title>
     </mat-expansion-panel-header>
 
-    <swkroa-dictionary-value [dictionaryValue]="value"
-                             [editing]="editing">
+    <swkroa-dictionary-value [dictionaryMeaning]="dictionaryMeaning"
+                             [dictionaryValue]="value"
+                             [editing]="editing"
+                             (created)="onCreated($event)"
+                             (deleted)="onDeleted($event)"
+                             (updated)="onUpdated($event)">
     </swkroa-dictionary-value>
   </mat-expansion-panel>
 </mat-accordion>
