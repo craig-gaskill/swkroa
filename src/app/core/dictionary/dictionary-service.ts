@@ -25,13 +25,13 @@ export interface DictionaryServiceConfig {
   providedIn: 'root'
 })
 export class DictionaryService extends BaseService {
-  private readonly baseUrl: string;
+  private readonly BASE_URL: string;
 
-  constructor(private httpClient: HttpClient,
+  constructor(private _httpClient: HttpClient,
               @Inject('DictionaryServiceConfig') private config: DictionaryServiceConfig
   ) {
     super();
-    this.baseUrl = config.baseUrl;
+    this.BASE_URL = config.baseUrl;
   }
 
   /**
@@ -43,7 +43,7 @@ export class DictionaryService extends BaseService {
    *
    * @returns An {@link Observable} of {@link Dictionary} objects.
    */
-  public getDictionaries(start = 0, limit = 20, name: string = null): Observable<Dictionary[]> {
+  public getDictionaries(start = 0, limit = 20, name?: string): Observable<Dictionary[]> {
     let params = new HttpParams()
       .set('start', start.toString())
       .set('limit', limit.toString());
@@ -52,7 +52,7 @@ export class DictionaryService extends BaseService {
       params = params.set('name', name);
     }
 
-    return this.httpClient.get<any>(this.baseUrl, {params})
+    return this._httpClient.get<any>(this.BASE_URL, {params})
       .pipe(
         this.deserializeJsonArray(Dictionary),
         catchError(this.handleError)
@@ -75,9 +75,9 @@ export class DictionaryService extends BaseService {
       }
     }
 
-    const url = `${this.baseUrl}/${meaning}`;
+    const url = `${this.BASE_URL}/${meaning}`;
 
-    return this.httpClient.get<any>(url, {params})
+    return this._httpClient.get<any>(url, {params})
       .pipe(
         this.deserializeJsonObject(Dictionary),
         catchError(this.handleError)
@@ -98,7 +98,7 @@ export class DictionaryService extends BaseService {
 
     const body = this.serializeJson(dictionary);
 
-    return this.httpClient.post<Dictionary>(`${this.baseUrl}`, body, {headers})
+    return this._httpClient.post<Dictionary>(`${this.BASE_URL}`, body, {headers})
       .pipe(
         this.deserializeJsonObject(Dictionary),
         catchError(this.handleError)
@@ -117,10 +117,10 @@ export class DictionaryService extends BaseService {
     const headers = new HttpHeaders()
       .set('Source', source);
 
-    const url  = `${this.baseUrl}/${dictionary.dictionaryId}`;
+    const url  = `${this.BASE_URL}/${dictionary.dictionaryId}`;
     const body = this.serializeJson(dictionary);
 
-    return this.httpClient.put<Dictionary>(url, body, {headers})
+    return this._httpClient.put<Dictionary>(url, body, {headers})
       .pipe(
         this.deserializeJsonObject(Dictionary),
         catchError(this.handleError)
@@ -139,9 +139,9 @@ export class DictionaryService extends BaseService {
     const headers = new HttpHeaders()
       .set('Source', source);
 
-    const url  = `${this.baseUrl}/${dictionary.dictionaryId}`;
+    const url  = `${this.BASE_URL}/${dictionary.dictionaryId}`;
 
-    return this.httpClient.delete<boolean>(url, {headers, observe: 'response'})
+    return this._httpClient.delete<boolean>(url, {headers, observe: 'response'})
       .pipe(
         map(response => response.status === 204),
         catchError(this.handleError)
@@ -177,9 +177,9 @@ export class DictionaryService extends BaseService {
       }
     }
 
-    const url = `${this.baseUrl}/${meaning}/values`;
+    const url = `${this.BASE_URL}/${meaning}/values`;
 
-    return this.httpClient.get<any>(url, {params})
+    return this._httpClient.get<any>(url, {params})
       .pipe(
         this.deserializeJsonArray(DictionaryValue),
         catchError(this.handleError)
@@ -205,9 +205,9 @@ export class DictionaryService extends BaseService {
       }
     }
 
-    const url = `${this.baseUrl}/${dictionaryMeaning}/values/${dictionaryValue}`;
+    const url = `${this.BASE_URL}/${dictionaryMeaning}/values/${dictionaryValue}`;
 
-    return this.httpClient.get<DictionaryValue>(url, {params})
+    return this._httpClient.get<DictionaryValue>(url, {params})
       .pipe(
         this.deserializeJsonObject(DictionaryValue),
         catchError(this.handleError)
@@ -227,10 +227,10 @@ export class DictionaryService extends BaseService {
     const headers = new HttpHeaders()
       .set('Source', source);
 
-    const url = `${this.baseUrl}/${meaning}/values`;
+    const url = `${this.BASE_URL}/${meaning}/values`;
     const body = this.serializeJson(dictionaryValue);
 
-    return this.httpClient.post<DictionaryValue>(url, body, {headers})
+    return this._httpClient.post<DictionaryValue>(url, body, {headers})
       .pipe(
         this.deserializeJsonObject(DictionaryValue),
         catchError(this.handleError)
@@ -250,10 +250,10 @@ export class DictionaryService extends BaseService {
     const headers = new HttpHeaders()
       .set('Source', source);
 
-    const url = `${this.baseUrl}/${meaning}/values/${dictionaryValue.dictionaryValueId}`;
+    const url = `${this.BASE_URL}/${meaning}/values/${dictionaryValue.dictionaryValueId}`;
     const body = this.serializeJson(dictionaryValue);
 
-    return this.httpClient.put<DictionaryValue>(url, body, {headers})
+    return this._httpClient.put<DictionaryValue>(url, body, {headers})
       .pipe(
         this.deserializeJsonObject(DictionaryValue),
         catchError(this.handleError)
@@ -273,9 +273,9 @@ export class DictionaryService extends BaseService {
     const headers = new HttpHeaders()
       .set('Source', source);
 
-    const url = `${this.baseUrl}/${meaning}/values/${dictionaryValue.dictionaryValueId}`;
+    const url = `${this.BASE_URL}/${meaning}/values/${dictionaryValue.dictionaryValueId}`;
 
-    return this.httpClient.delete<boolean>(url, {headers, observe: 'response'})
+    return this._httpClient.delete<boolean>(url, {headers, observe: 'response'})
       .pipe(
         map(response => response.status === 204),
         catchError(this.handleError)

@@ -4,6 +4,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
+import {AppStoreModule} from './app-store.module';
 import {SharedModule} from './shared/shared.module';
 import {SecurityModule} from './security/security.module';
 import {HomeModule} from './feature/home/home.module';
@@ -24,6 +25,7 @@ import {LoginComponent} from './security/login/login.component';
     HttpClientModule,
 
     AppRoutingModule,
+    AppStoreModule,
     SharedModule,
     SecurityModule,
     HomeModule
