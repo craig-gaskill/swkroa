@@ -1,4 +1,5 @@
 import {Dictionary} from '../../../../core/dictionary/dictionary';
+import {DictionaryValue} from '../../../../core/dictionary/dictionary-value';
 
 export enum LoadStatus {
   Loading,
@@ -15,8 +16,14 @@ export enum ViewStatus {
 
 export interface DictionaryState {
   dictionaries: Dictionary[];
+  dictionariesLoadStatus: LoadStatus;
+  dictionariesLoadError: string;
+  dictionaryValues: Map<string, DictionaryValue>;
 }
 
 export const initialDictionaryState: DictionaryState = {
-  dictionaries: undefined
+  dictionaries: undefined,
+  dictionariesLoadStatus: undefined,
+  dictionariesLoadError: undefined,
+  dictionaryValues: undefined
 };

@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {Dictionary} from '../../../core/dictionary/dictionary';
-import {DictionaryService} from '../../../core/dictionary/dictionary-service';
+import {DictionariesManager} from './dictionaries.manager';
 
 @Component({
   templateUrl: './dictionaries.component.html',
@@ -13,11 +13,12 @@ export class DictionariesComponent implements OnInit {
   public dictionaries: Observable<Dictionary[]>;
   public expandedMeaning: string;
 
-  constructor(private _dictionaryService: DictionaryService
+  constructor(private _dictionariesManager: DictionariesManager
   ) { }
 
   public ngOnInit() {
-    this.dictionaries = this._dictionaryService.getDictionaries(0, 0);
+    this.dictionaries = this._dictionariesManager.selectAllDictionaries();
+    this._dictionariesManager.loadAllDictionaries();
   }
 
   public onExpandDictionary(meaning: string): void {
