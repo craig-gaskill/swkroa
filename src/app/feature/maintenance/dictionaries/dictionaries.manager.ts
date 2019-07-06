@@ -8,7 +8,14 @@ import {
   selectAllDictionaries, selectAllDictionaryValues,
   selectDictionaryLoadStatus,
 } from './store/dictionary-store.selectors';
-import {loadDictionaries, loadDictionaryValues, resetDictionaries, resetDictionaryValues} from './store/dictionary-store.actions';
+import {
+  dictionaryValueDelete,
+  dictionaryValueSave,
+  loadDictionaries,
+  loadDictionaryValues,
+  resetDictionaries,
+  resetDictionaryValues
+} from './store/dictionary-store.actions';
 import {DictionaryValue} from '../../../core/dictionary/dictionary-value';
 
 @Injectable()
@@ -61,5 +68,13 @@ export class DictionariesManager {
    */
   public resetDictionaryValues(dictionaryMeaning: string): void {
     this._dictionaryStore.dispatch(resetDictionaryValues({dictionaryMeaning}));
+  }
+
+  public saveDictionaryValue(dictionaryMeaning: string, dictionaryValue: DictionaryValue): void {
+    this._dictionaryStore.dispatch(dictionaryValueSave({dictionaryMeaning, dictionaryValue}));
+  }
+
+  public deleteDictionaryValue(dictionaryMeaning: string, dictionaryValue: DictionaryValue): void {
+    this._dictionaryStore.dispatch(dictionaryValueDelete({dictionaryMeaning, dictionaryValue}));
   }
 }

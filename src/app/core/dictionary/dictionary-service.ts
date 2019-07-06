@@ -1,5 +1,5 @@
 import {Inject, Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
 
@@ -88,17 +88,13 @@ export class DictionaryService extends BaseService {
    * Create a {@link Dictionary}.
    *
    * @param dictionary The {@link Dictionary} to create.
-   * @param source The source from which the dictionary is being added.
    *
    * @returns An {@link Observable} that returns the added {@link Dictionary}, null if not added.
    */
-  public createDictionary(dictionary: Dictionary, source: string): Observable<Dictionary> {
-    const headers = new HttpHeaders()
-      .set('Source', source);
-
+  public createDictionary(dictionary: Dictionary): Observable<Dictionary> {
     const body = this.serializeJson(dictionary);
 
-    return this._httpClient.post<Dictionary>(`${this.BASE_URL}`, body, {headers})
+    return this._httpClient.post<Dictionary>(`${this.BASE_URL}`, body)
       .pipe(
         this.deserializeJsonObject(Dictionary),
         catchError(this.handleError)
@@ -109,18 +105,14 @@ export class DictionaryService extends BaseService {
    * Updates the {@link Dictionary}.
    *
    * @param dictionary The {@link Dictionary} to update.
-   * @param source The source from which the dictionary is being updated.
    *
    * @returns An {@link Observable} that returns the updated {@link Dictionary}, null if not added.
    */
-  public updateDictionary(dictionary: Dictionary, source: string): Observable<Dictionary> {
-    const headers = new HttpHeaders()
-      .set('Source', source);
-
+  public updateDictionary(dictionary: Dictionary): Observable<Dictionary> {
     const url  = `${this.BASE_URL}/${dictionary.dictionaryId}`;
     const body = this.serializeJson(dictionary);
 
-    return this._httpClient.put<Dictionary>(url, body, {headers})
+    return this._httpClient.put<Dictionary>(url, body)
       .pipe(
         this.deserializeJsonObject(Dictionary),
         catchError(this.handleError)
@@ -131,17 +123,13 @@ export class DictionaryService extends BaseService {
    * Deletes the {@link Dictionary}.
    *
    * @param dictionary The {@link Dictionary} to delete.
-   * @param source The source from which the dictionary was deleted.
    *
    * @returns An {@link Observable} that returns a boolean to indicate if the delete was successful.
    */
-  public deleteDictionary(dictionary: Dictionary, source: string): Observable<boolean> {
-    const headers = new HttpHeaders()
-      .set('Source', source);
-
+  public deleteDictionary(dictionary: Dictionary): Observable<boolean> {
     const url  = `${this.BASE_URL}/${dictionary.dictionaryId}`;
 
-    return this._httpClient.delete<boolean>(url, {headers, observe: 'response'})
+    return this._httpClient.delete<boolean>(url, {observe: 'response'})
       .pipe(
         map(response => response.status === 204),
         catchError(this.handleError)
@@ -219,18 +207,14 @@ export class DictionaryService extends BaseService {
    *
    * @param meaning The dictionary to add a value to.
    * @param dictionaryValue The value to add.
-   * @param source The source from which the value is being added.
    *
    * @returns An {@link Observable} that returns the added {@link DictionaryValue}, null if not added.
    */
-  public createDictionaryValue(meaning: string, dictionaryValue: DictionaryValue, source: string): Observable<DictionaryValue> {
-    const headers = new HttpHeaders()
-      .set('Source', source);
-
+  public createDictionaryValue(meaning: string, dictionaryValue: DictionaryValue): Observable<DictionaryValue> {
     const url = `${this.BASE_URL}/${meaning}/values`;
     const body = this.serializeJson(dictionaryValue);
 
-    return this._httpClient.post<DictionaryValue>(url, body, {headers})
+    return this._httpClient.post<DictionaryValue>(url, body)
       .pipe(
         this.deserializeJsonObject(DictionaryValue),
         catchError(this.handleError)
@@ -242,18 +226,14 @@ export class DictionaryService extends BaseService {
    *
    * @param meaning The dictionary to update the value to.
    * @param dictionaryValue The updated value (which one to update is determined by ID).
-   * @param source The source from which the value is being updated.
    *
    * @returns An {@link Observable} that returns the updated {@link DictionaryValue}, null if not added.
    */
-  public updateDictionaryValue(meaning: string, dictionaryValue: DictionaryValue, source: string): Observable<DictionaryValue> {
-    const headers = new HttpHeaders()
-      .set('Source', source);
-
+  public updateDictionaryValue(meaning: string, dictionaryValue: DictionaryValue): Observable<DictionaryValue> {
     const url = `${this.BASE_URL}/${meaning}/values/${dictionaryValue.dictionaryValueId}`;
     const body = this.serializeJson(dictionaryValue);
 
-    return this._httpClient.put<DictionaryValue>(url, body, {headers})
+    return this._httpClient.put<DictionaryValue>(url, body)
       .pipe(
         this.deserializeJsonObject(DictionaryValue),
         catchError(this.handleError)
@@ -265,17 +245,13 @@ export class DictionaryService extends BaseService {
    *
    * @param meaning The dictionary to delete the value from.
    * @param dictionaryValue The value to delete.
-   * @param source The source from which the value is being deleted.
    *
    * @returns An {@link Observable} that returns whether or not the delete was successful.
    */
-  public deleteDictionaryValue(meaning: string, dictionaryValue: DictionaryValue, source: string): Observable<boolean> {
-    const headers = new HttpHeaders()
-      .set('Source', source);
-
+  public deleteDictionaryValue(meaning: string, dictionaryValue: DictionaryValue): Observable<boolean> {
     const url = `${this.BASE_URL}/${meaning}/values/${dictionaryValue.dictionaryValueId}`;
 
-    return this._httpClient.delete<boolean>(url, {headers, observe: 'response'})
+    return this._httpClient.delete<boolean>(url, {observe: 'response'})
       .pipe(
         map(response => response.status === 204),
         catchError(this.handleError)

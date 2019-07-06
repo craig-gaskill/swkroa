@@ -2,10 +2,10 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material';
 
-import {CgtConfirmationComponent, CgtConfirmationContext, CgtNotificationService} from '@cagst/ngx-components';
+import {CgtConfirmationComponent, CgtConfirmationContext} from '@cagst/ngx-components';
 
 import {DictionaryValue} from '../../../../../core/dictionary/dictionary-value';
-import {DictionaryService} from '../../../../../core/dictionary/dictionary-service';
+import {DictionariesManager} from '../../dictionaries.manager';
 
 @Component({
   selector: 'swkroa-dictionary-value',
@@ -14,8 +14,6 @@ import {DictionaryService} from '../../../../../core/dictionary/dictionary-servi
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DictionaryValueComponent {
-  private readonly SOURCE = 'MAINTAIN_DICTIONARIES';
-
   private _dictionaryValue: DictionaryValue;
 
   public valueForm: FormGroup;
@@ -42,8 +40,7 @@ export class DictionaryValueComponent {
 
   constructor(private _formBuilder: FormBuilder,
               private _dialog: MatDialog,
-              private _dictionaryService: DictionaryService,
-              private _notificationService: CgtNotificationService
+              private _dictionariesManager: DictionariesManager
   ) {
     this.valueForm = this._formBuilder.group({
       display: [undefined, [Validators.required]],
@@ -67,7 +64,11 @@ export class DictionaryValueComponent {
 
     this._dialog.open(CgtConfirmationComponent, {data: confirmDelete, autoFocus: false})
       .afterClosed()
-      .subscribe(result => result === confirmDelete.acceptData ? this.performDelete() : undefined);
+      .subscribe(result =>
+        result === confirmDelete.acceptData ?
+          this._dictionariesManager.deleteDictionaryValue(this.dictionaryMeaning, this._dictionaryValue) :
+          undefined
+      );
   }
 
   public onSave(): void {
@@ -80,41 +81,11 @@ export class DictionaryValueComponent {
     dv.active = this._dictionaryValue.active;
     dv.updateCount = this.dictionaryValue.updateCount;
 
-    if (this._dictionaryValue.dictionaryValueId) {
-      this._dictionaryService.updateDictionaryValue(this.dictionaryMeaning, dv, this.SOURCE)
-        .subscribe(result => {
-          if (result) {
-            this.editing = false;
-            this.dictionaryValue = result;
-            this.updated.emit(result);
-            this._notificationService.success(`${result.display} was updated successfully.`);
-          }
-        }, () => this._notificationService.failure(`Failed to update ${dv.display}.`));
-    } else {
-      this._dictionaryService.createDictionaryValue(this.dictionaryMeaning, dv, this.SOURCE)
-        .subscribe(result => {
-          if (result) {
-            this.editing = false;
-            this.dictionaryValue = result;
-            this.created.emit(result);
-            this._notificationService.success(`${result.display} was created successfully.`);
-          }
-        }, () => this._notificationService.failure(`Failed to create ${dv.display}.`));
-    }
+    this._dictionariesManager.saveDictionaryValue(this.dictionaryMeaning, dv);
   }
 
   public onCancel(): void {
     this.editing = false;
     this.dictionaryValue = this._dictionaryValue;
-  }
-
-  private performDelete(): void {
-    this._dictionaryService.deleteDictionaryValue(this.dictionaryMeaning, this._dictionaryValue, this.SOURCE)
-      .subscribe(result => {
-        if (result) {
-          this.deleted.emit(this._dictionaryValue);
-          this._notificationService.success(`${this._dictionaryValue.display} was deleted successfully.`);
-        }
-      });
   }
 }
