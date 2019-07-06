@@ -14,16 +14,23 @@ export enum ViewStatus {
   Edit
 }
 
+export interface DictionaryValueState {
+  dictionaryMeaning: string;
+  dictionaryValues: DictionaryValue[];
+  dictionaryValuesLoadStatus: LoadStatus;
+  dictionaryValuesLoadError: string;
+}
+
 export interface DictionaryState {
   dictionaries: Dictionary[];
   dictionariesLoadStatus: LoadStatus;
   dictionariesLoadError: string;
-  dictionaryValues: Map<string, DictionaryValue>;
+  dictionaryValueStates: DictionaryValueState[];
 }
 
 export const initialDictionaryState: DictionaryState = {
   dictionaries: undefined,
   dictionariesLoadStatus: undefined,
   dictionariesLoadError: undefined,
-  dictionaryValues: undefined
+  dictionaryValueStates: []
 };

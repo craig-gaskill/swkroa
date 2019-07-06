@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {Dictionary} from '../../../core/dictionary/dictionary';
@@ -9,24 +9,23 @@ import {DictionariesManager} from './dictionaries.manager';
   styleUrls: ['./dictionaries.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DictionariesComponent implements OnInit {
-  public dictionaries: Observable<Dictionary[]>;
+export class DictionariesComponent implements OnInit, OnDestroy {
+  public dictionaries$: Observable<Dictionary[]>;
   public expandedMeaning: string;
 
-  constructor(private _dictionariesManager: DictionariesManager
-  ) { }
+  constructor(private _dictionariesManager: DictionariesManager) { }
 
   public ngOnInit() {
-    this.dictionaries = this._dictionariesManager.selectAllDictionaries();
+    this.dictionaries$ = this._dictionariesManager.selectAllDictionaries();
     this._dictionariesManager.loadAllDictionaries();
+  }
+
+  public ngOnDestroy(): void {
+    this._dictionariesManager.resetDictionaries();
   }
 
   public onExpandDictionary(meaning: string): void {
     this.expandedMeaning = meaning;
-  }
-
-  public onCollapsedDictionary(): void {
-    this.expandedMeaning = undefined;
   }
 
   public onAddDictionaryValue(): void {

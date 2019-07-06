@@ -1,5 +1,5 @@
 <mat-accordion displayMode="flat">
-  <mat-expansion-panel *ngFor="let value of dictionaryValues">
+  <mat-expansion-panel *ngFor="let value of dictionaryValues$ | async">
     <mat-expansion-panel-header>
       <mat-panel-title>{{value.display}}</mat-panel-title>
     </mat-expansion-panel-header>

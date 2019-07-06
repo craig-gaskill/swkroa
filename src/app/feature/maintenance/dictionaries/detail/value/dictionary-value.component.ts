@@ -4,8 +4,8 @@ import {MatDialog} from '@angular/material';
 
 import {CgtConfirmationComponent, CgtConfirmationContext, CgtNotificationService} from '@cagst/ngx-components';
 
-import {DictionaryValue} from '../../../../core/dictionary/dictionary-value';
-import {DictionaryService} from '../../../../core/dictionary/dictionary-service';
+import {DictionaryValue} from '../../../../../core/dictionary/dictionary-value';
+import {DictionaryService} from '../../../../../core/dictionary/dictionary-service';
 
 @Component({
   selector: 'swkroa-dictionary-value',

@@ -10,5 +10,5 @@ export const resetDictionaries         = createAction('[Dictionaries] Reset');
 
 export const loadDictionaryValues          = createAction('[Dictionary Values] Load', props<{dictionaryMeaning: string}>());
 export const loadDictionaryValuesSucceeded = createAction('[Dictionary Values] Load Succeeded', props<{dictionaryMeaning: string; values: DictionaryValue[]}>());
-export const loadDictionaryValuesFailed    = createAction('[Dictionary Values] Load Failed');
+export const loadDictionaryValuesFailed    = createAction('[Dictionary Values] Load Failed', props<{dictionaryMeaning: string; error: string}>());
 export const resetDictionaryValues         = createAction('[Dictionary Values] Reset', props<{dictionaryMeaning: string}>());
