@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material';
 
@@ -17,9 +17,9 @@ export class DictionaryValueComponent {
   private _dictionaryValue: DictionaryValue;
 
   public valueForm: FormGroup;
+  public editing = false;
 
   @Input() public dictionaryMeaning: string;
-  @Input() public editing = false;
 
   @Input() public get dictionaryValue(): DictionaryValue {
     return this._dictionaryValue;
@@ -33,10 +33,6 @@ export class DictionaryValueComponent {
       meaning: value ? value.meaning : undefined
     });
   }
-
-  @Output() public created = new EventEmitter<DictionaryValue>();
-  @Output() public deleted = new EventEmitter<DictionaryValue>();
-  @Output() public updated = new EventEmitter<DictionaryValue>();
 
   constructor(private _formBuilder: FormBuilder,
               private _dialog: MatDialog,

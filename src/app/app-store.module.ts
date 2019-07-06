@@ -15,7 +15,7 @@ import {EffectsModule} from '@ngrx/effects';
         strictStateImmutability: true,
         strictActionImmutability: true,
         strictStateSerializability: true,
-        strictActionSerializability: true
+        strictActionSerializability: false
       }
     }),
     EffectsModule.forRoot([]),

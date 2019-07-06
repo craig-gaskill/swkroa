@@ -93,7 +93,10 @@ export class DictionaryStoreEffects {
   public dictionaryValueSaveUpdated$ = createEffect(() => this._actions$
     .pipe(
       ofType(dictionaryValueSaveUpdated),
-      tap(action => this._notificationService.success(`${action.dictionaryValue.display} was updated.`))
+      tap(action => {
+        console.log('DictionaryStore::dictionaryValueSaveUpdated');
+        return this._notificationService.success(`${action.dictionaryValue.display} was updated.`);
+      })
     ), {dispatch: false}
   );
 

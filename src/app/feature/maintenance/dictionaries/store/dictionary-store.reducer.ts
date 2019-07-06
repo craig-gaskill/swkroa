@@ -138,10 +138,10 @@ const reducer = createReducer(initialDictionaryState,
     const dvs = [...state.dictionaryValueStates];
 
     if (idx >= 0) {
-      let values = [...dvs[idx].dictionaryValues];
+      const values = [...dvs[idx].dictionaryValues];
       const existingIdx = values.findIndex(value => value.dictionaryValueId === action.dictionaryValue.dictionaryValueId);
       if (existingIdx >= 0) {
-        values = values.splice(existingIdx, 1, action.dictionaryValue);
+        values.splice(existingIdx, 1, action.dictionaryValue);
       }
       values.sort((lhs, rhs) => lhs.display.localeCompare(rhs.display));
 
@@ -166,10 +166,10 @@ const reducer = createReducer(initialDictionaryState,
     const dvs = [...state.dictionaryValueStates];
 
     if (idx >= 0) {
-      let values = [...dvs[idx].dictionaryValues];
+      const values = [...dvs[idx].dictionaryValues];
       const existingIdx = values.findIndex(value => value.dictionaryValueId === action.dictionaryValue.dictionaryValueId);
       if (existingIdx >= 0) {
-        values = values.splice(existingIdx, 1);
+        values.splice(existingIdx, 1);
       }
 
       const dv: DictionaryValueState = {
