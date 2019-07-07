@@ -36,17 +36,14 @@ const reducer = createReducer(initialDictionaryState,
     const idx = state.dictionaryValueStates.findIndex(dv => dv.dictionaryMeaning === action.dictionaryMeaning);
     const dvs = [...state.dictionaryValueStates];
 
-    if (idx >= 0) {
-      // remove the old one (if it existed)
-      dvs.splice(idx, 1);
-    }
-
-    dvs.push({
+    if (idx === -1) {
+      dvs.push({
         dictionaryMeaning: action.dictionaryMeaning,
         dictionaryValues: undefined,
         dictionaryValuesLoadStatus: LoadStatus.Loading,
         dictionaryValuesLoadError: undefined
-    });
+      });
+    }
 
     return {
       ...state,
