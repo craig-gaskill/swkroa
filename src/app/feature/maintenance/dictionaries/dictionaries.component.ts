@@ -28,6 +28,6 @@ export class DictionariesComponent implements OnInit, OnDestroy {
     this.expandedMeaning = meaning;
   }
 
-  public onAddDictionaryValue(): void {
+  public onAddDictionaryValue(meaning: string): void {
   }
 }
