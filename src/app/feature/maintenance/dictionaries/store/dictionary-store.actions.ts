@@ -16,7 +16,7 @@ export const resetDictionaryValues         = createAction('[Dictionary Values] R
 export const dictionaryValueAdd             = createAction('[Dictionary Value] Add', props<{dictionaryMeaning: string}>());
 export const dictionaryValueEdit            = createAction('[Dictionary Value] Edit', props<{dictionaryMeaning: string; dictionaryValue: DictionaryValue}>());
 export const dictionaryValueDelete          = createAction('[Dictionary Value] Delete', props<{dictionaryMeaning: string; dictionaryValue: DictionaryValue}>());
-export const dictionaryValueCancel          = createAction('[Dictionary Value] Delete', props<{dictionaryMeaning: string; dictionaryValue: DictionaryValue}>());
+export const dictionaryValueCancel          = createAction('[Dictionary Value] Cancel', props<{dictionaryMeaning: string; dictionaryValue: DictionaryValue}>());
 
 export const dictionaryValueSave            = createAction('[Dictionary Value] Save', props<{dictionaryMeaning: string; dictionaryValue: DictionaryValue}>());
 export const dictionaryValueSaveCreated     = createAction('[Dictionary Value] Save Created', props<{dictionaryMeaning: string; dictionaryValue: DictionaryValue}>());

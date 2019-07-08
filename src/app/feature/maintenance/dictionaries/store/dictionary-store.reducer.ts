@@ -165,7 +165,9 @@ const reducer = createReducer(initialDictionaryState,
     const dvs = [...state.dictionaryValueStates];
 
     if (idx >= 0) {
-      const values = [...dvs[idx].dictionaryValues, action.dictionaryValue];
+      const values = [...dvs[idx].dictionaryValues, action.dictionaryValue]
+        .filter(v => v.dictionaryValueId > 0); // filter out anything w/o an ID (the empty one that was added)
+
       values.sort((lhs, rhs) => lhs.display.localeCompare(rhs.display));
 
       const dv: DictionaryValueState = {
