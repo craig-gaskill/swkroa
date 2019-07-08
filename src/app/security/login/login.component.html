@@ -1,13 +1,13 @@
 <form [formGroup]="loginForm"
       (ngSubmit)="onLogin()"
       novalidate>
-  <mat-card [attr.role]="'form'" class="login-card">
+  <mat-card [attr.role]="'form'">
     <mat-card-header>
       <mat-card-title>Welcome to SWKROA</mat-card-title>
       <mat-card-subtitle>Please Login</mat-card-subtitle>
     </mat-card-header>
-    <mat-card-content class="login-content">
-      <mat-error *ngIf="error" class="login-error">
+    <mat-card-content>
+      <mat-error *ngIf="error">
         <ng-container [ngSwitch]="error">
           <ng-container *ngSwitchCase="AUTH_STATUS.STATUS_DISABLED">
             Your account has been disabled!
@@ -25,29 +25,30 @@
         </ng-container>
       </mat-error>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Username</mat-label>
-        <input matInput required
-               id="username"
-               name="username"
-               autocomplete="off"
-               autofocus
-               formControlName="username">
-        <mat-error *ngIf="loginForm.get('username').invalid">Username is required.</mat-error>
-      </mat-form-field>
+      <cgt-input id="username"
+                 name="username"
+                 label="Username"
+                 [editing]="true"
+                 [autofocus]="true"
+                 [required]="true"
+                 requiredErrorMessage="A username is required."
+                 autocomplete="username"
+                 formControlName="username">
+      </cgt-input>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Password</mat-label>
-        <input matInput required
-               id="password"
-               name="password"
-               type="password"
-               autocomplete="off"
-               formControlName="password">
-        <mat-error *ngIf="loginForm.get('password').invalid">Password is required.</mat-error>
-      </mat-form-field>
+      <cgt-input id="password"
+                 name="password"
+                 label="Password"
+                 type="password"
+                 [editing]="true"
+                 [required]="true"
+                 requiredErrorMessage="A password is required."
+                 autocomplete="current-password"
+                 formControlName="password">
+      </cgt-input>
     </mat-card-content>
-    <mat-card-actions class="login-actions">
+
+    <mat-card-actions>
       <button mat-raised-button color="primary" [disabled]="loginForm.invalid || processing">
         <mat-spinner [diameter]="24" *ngIf="processing"></mat-spinner>
         Login

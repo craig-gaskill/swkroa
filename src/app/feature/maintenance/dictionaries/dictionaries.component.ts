@@ -1,20 +1,34 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {Dictionary} from '../../../core/dictionary/dictionary';
-import {DictionaryService} from '../../../core/services/dictionary-service';
+import {DictionariesManager} from './dictionaries.manager';
 
 @Component({
   templateUrl: './dictionaries.component.html',
-  styleUrls: ['./dictionaries.component.scss']
+  styleUrls: ['./dictionaries.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DictionariesComponent implements OnInit {
-  public dictionaries: Observable<Dictionary[]>;
+export class DictionariesComponent implements OnInit, OnDestroy {
+  public dictionaries$: Observable<Dictionary[]>;
+  public expandedMeaning: string;
 
-  constructor(private _dictionaryService: DictionaryService
-  ) { }
+  constructor(private _dictionariesManager: DictionariesManager) { }
 
   public ngOnInit() {
-    this.dictionaries = this._dictionaryService.getDictionaries(0, 0);
+    this.dictionaries$ = this._dictionariesManager.selectAllDictionaries();
+    this._dictionariesManager.loadAllDictionaries();
+  }
+
+  public ngOnDestroy(): void {
+    this._dictionariesManager.resetDictionaries();
+  }
+
+  public onExpandDictionary(meaning: string): void {
+    this.expandedMeaning = meaning;
+  }
+
+  public onAddDictionaryValue(meaning: string): void {
+    this._dictionariesManager.addDictionaryValue(meaning);
   }
 }

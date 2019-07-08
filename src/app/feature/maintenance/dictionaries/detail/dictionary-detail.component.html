@@ -1,0 +1,12 @@
+<mat-accordion displayMode="flat">
+  <mat-expansion-panel *ngFor="let value of dictionaryValues$ | async"
+                       [expanded]="!value.dictionaryValueId">
+    <mat-expansion-panel-header>
+      <mat-panel-title>{{value.display ? value.display : 'New ' + dictionary.display}}</mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <swkroa-dictionary-value [dictionaryMeaning]="dictionary.meaning"
+                             [dictionaryValue]="value">
+    </swkroa-dictionary-value>
+  </mat-expansion-panel>
+</mat-accordion>

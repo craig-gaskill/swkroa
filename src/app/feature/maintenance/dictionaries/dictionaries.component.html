@@ -1,8 +1,19 @@
-<p>
-  Dictionaries Page
-</p>
-<ul>
-  <li *ngFor="let dictionary of dictionaries | async">
-    {{dictionary.display}}
-  </li>
-</ul>
+<h4>DICTIONARIES</h4>
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let dictionary of dictionaries$ | async"
+                       (opened)="onExpandDictionary(dictionary.meaning)">
+    <mat-expansion-panel-header>
+      <mat-panel-title>{{dictionary.display}}</mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <swkroa-dictionary-detail *ngIf="expandedMeaning === dictionary.meaning"
+                              [dictionary]="dictionary">
+    </swkroa-dictionary-detail>
+
+    <mat-action-row>
+      <button mat-button color="accent" (click)="onAddDictionaryValue(dictionary.meaning)">
+        Add {{dictionary.display}}
+      </button>
+    </mat-action-row>
+  </mat-expansion-panel>
+</mat-accordion>

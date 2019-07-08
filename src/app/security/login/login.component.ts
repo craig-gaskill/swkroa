@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
+import {HttpErrorResponse} from '@angular/common/http';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
+import {finalize} from 'rxjs/operators';
 
 import {AuthenticationService} from '../service/authentication.service';
 import {AuthenticationStatus} from '../authentication-status.enum';
-import {finalize} from 'rxjs/operators';
-import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'swkroa-login',

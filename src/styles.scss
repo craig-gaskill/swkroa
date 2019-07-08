@@ -39,3 +39,40 @@ swkroa-navigation {
   right: 0;
   z-index: 2;
 }
+
+.button-group > button:first-child {
+  border-top-right-radius: unset;
+  border-bottom-right-radius: unset;
+  box-shadow: none;
+}
+
+.button-group > button:not(:first-child) {
+  border-radius: unset;
+  box-shadow: none;
+}
+
+.button-group > button:last-child {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  box-shadow: none;
+}
+
+button.button-small {
+  line-height: 1.5rem;
+}
+
+.notify-inform {
+  background-color: steelblue;
+}
+
+.notify-warn {
+  background-color: goldenrod;
+}
+
+.notify-success {
+  background-color: seagreen;
+}
+
+.notify-failure {
+  background-color: crimson;
+}

@@ -3,7 +3,7 @@ import {JsonObject, JsonProperty} from 'json2typescript';
 /**
  * JSON representation of a Dictionary's Value
  */
-@JsonObject
+@JsonObject('DictionaryValue')
 export class DictionaryValue {
   @JsonProperty('dictionaryValueId', Number, true)
   public dictionaryValueId: number = undefined;
@@ -17,6 +17,6 @@ export class DictionaryValue {
   @JsonProperty('active', Boolean)
   public active = true;
 
-  @JsonProperty('updatedCount', Number)
-  public updatedCount = 0;
+  @JsonProperty('updateCount', Number)
+  public updateCount = 0;
 }

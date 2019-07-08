@@ -1,0 +1,51 @@
+<form [formGroup]="valueForm" novalidate>
+  <mat-divider [inset]="true"></mat-divider>
+  <div class="row">
+    <cgt-input id="display"
+               name="display"
+               label="Display"
+               [required]="true"
+               [editing]="editing"
+               formControlName="display">
+    </cgt-input>
+
+    <cgt-input id="meaning"
+               name="meaning"
+               label="Meaning"
+               [required]="true"
+               [editing]="editing && !dictionaryValue.dictionaryValueId"
+               formControlName="meaning">
+    </cgt-input>
+  </div>
+
+  <div class="button-row">
+    <ng-container *ngIf="!editing">
+      <button mat-raised-button
+              type="button"
+              color="primary"
+              (click)="onEdit()">
+        Edit
+      </button>
+      <button mat-raised-button
+              type="button"
+              (click)="onDelete()">
+        Delete
+      </button>
+    </ng-container>
+
+    <ng-container *ngIf="editing">
+      <button mat-raised-button
+              type="button"
+              color="primary"
+              [disabled]="valueForm.invalid || valueForm.pristine"
+              (click)="onSave()">
+        Save
+      </button>
+      <button mat-raised-button
+              type="button"
+              (click)="onCancel()">
+        Cancel
+      </button>
+    </ng-container>
+  </div>
+</form>
