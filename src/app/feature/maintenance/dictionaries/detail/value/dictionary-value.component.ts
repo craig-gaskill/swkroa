@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material';
 
@@ -13,7 +13,7 @@ import {DictionariesManager} from '../../dictionaries.manager';
   styleUrls: ['./dictionary-value.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DictionaryValueComponent {
+export class DictionaryValueComponent implements OnInit {
   private _dictionaryValue: DictionaryValue;
 
   public valueForm: FormGroup;
@@ -42,6 +42,14 @@ export class DictionaryValueComponent {
       display: [undefined, [Validators.required]],
       meaning: [undefined, [Validators.required]]
     });
+  }
+
+  public ngOnInit(): void {
+    if (this._dictionaryValue && !this._dictionaryValue.dictionaryValueId) {
+      // if it is a new Dictionary Values
+      // place in edit mode so they can complete it
+      this.editing = true;
+    }
   }
 
   public onEdit(): void {
@@ -83,5 +91,6 @@ export class DictionaryValueComponent {
   public onCancel(): void {
     this.editing = false;
     this.dictionaryValue = this._dictionaryValue;
+    this._dictionariesManager.cancelDictionaryValue(this.dictionaryMeaning, this._dictionaryValue);
   }
 }

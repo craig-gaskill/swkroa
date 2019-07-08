@@ -1,8 +1,9 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {Observable} from 'rxjs';
 
 import {DictionaryValue} from '../../../../core/dictionary/dictionary-value';
 import {DictionariesManager} from '../dictionaries.manager';
-import {Observable} from 'rxjs';
+import {Dictionary} from '../../../../core/dictionary/dictionary';
 
 @Component({
   selector: 'swkroa-dictionary-detail',
@@ -13,12 +14,12 @@ export class DictionaryDetailComponent implements OnInit {
   public dictionaryValues$: Observable<DictionaryValue[]>;
 
   @Input()
-  public dictionaryMeaning: string;
+  public dictionary: Dictionary;
 
   constructor(private _dictionariesManager: DictionariesManager) { }
 
   public ngOnInit(): void {
-    this.dictionaryValues$ = this._dictionariesManager.selectAllDictionaryValues(this.dictionaryMeaning);
-    this._dictionariesManager.loadAllDictionaryValues(this.dictionaryMeaning);
+    this.dictionaryValues$ = this._dictionariesManager.selectAllDictionaryValues(this.dictionary.meaning);
+    this._dictionariesManager.loadAllDictionaryValues(this.dictionary.meaning);
   }
 }

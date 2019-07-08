@@ -29,5 +29,6 @@ export class DictionariesComponent implements OnInit, OnDestroy {
   }
 
   public onAddDictionaryValue(meaning: string): void {
+    this._dictionariesManager.addDictionaryValue(meaning);
   }
 }

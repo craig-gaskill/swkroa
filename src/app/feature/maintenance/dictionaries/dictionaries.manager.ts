@@ -9,6 +9,7 @@ import {
   selectDictionaryLoadStatus,
 } from './store/dictionary-store.selectors';
 import {
+  dictionaryValueAdd, dictionaryValueCancel,
   dictionaryValueDelete,
   dictionaryValueSave,
   loadDictionaries,
@@ -68,6 +69,14 @@ export class DictionariesManager {
    */
   public resetDictionaryValues(dictionaryMeaning: string): void {
     this._dictionaryStore.dispatch(resetDictionaryValues({dictionaryMeaning}));
+  }
+
+  public addDictionaryValue(dictionaryMeaning: string) {
+    this._dictionaryStore.dispatch(dictionaryValueAdd({dictionaryMeaning}));
+  }
+
+  public cancelDictionaryValue(dictionaryMeaning: string, dictionaryValue: DictionaryValue): void {
+    this._dictionaryStore.dispatch(dictionaryValueCancel({dictionaryMeaning, dictionaryValue}));
   }
 
   public saveDictionaryValue(dictionaryMeaning: string, dictionaryValue: DictionaryValue): void {

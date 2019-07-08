@@ -2,6 +2,7 @@ import {Action, createReducer, on} from '@ngrx/store';
 
 import {DictionaryState, DictionaryValueState, initialDictionaryState, LoadStatus} from './dictionary-store.state';
 import {
+  dictionaryValueAdd, dictionaryValueCancel,
   dictionaryValueDeleteSucceeded,
   dictionaryValueSaveCreated, dictionaryValueSaveUpdated,
   loadDictionaries,
@@ -13,6 +14,7 @@ import {
   resetDictionaries,
   resetDictionaryValues
 } from './dictionary-store.actions';
+import {DictionaryValue} from '../../../../core/dictionary/dictionary-value';
 
 const reducer = createReducer(initialDictionaryState,
   on(loadDictionaries, (state) => ({
@@ -33,7 +35,7 @@ const reducer = createReducer(initialDictionaryState,
   })),
   on(resetDictionaries, () => initialDictionaryState),
   on(loadDictionaryValues, (state, action) => {
-    const idx = state.dictionaryValueStates.findIndex(dv => dv.dictionaryMeaning === action.dictionaryMeaning);
+    const idx = state.dictionaryValueStates.findIndex(s => s.dictionaryMeaning === action.dictionaryMeaning);
     const dvs = [...state.dictionaryValueStates];
 
     if (idx === -1) {
@@ -51,7 +53,7 @@ const reducer = createReducer(initialDictionaryState,
     };
   }),
   on(loadDictionaryValuesSucceeded, (state, action) => {
-    const idx = state.dictionaryValueStates.findIndex(dv => dv.dictionaryMeaning === action.dictionaryMeaning);
+    const idx = state.dictionaryValueStates.findIndex(s => s.dictionaryMeaning === action.dictionaryMeaning);
     const dvs = [...state.dictionaryValueStates];
 
     if (idx >= 0) {
@@ -72,7 +74,7 @@ const reducer = createReducer(initialDictionaryState,
     };
   }),
   on(loadDictionaryValuesFailed, (state, action) => {
-    const idx = state.dictionaryValueStates.findIndex(dv => dv.dictionaryMeaning === action.dictionaryMeaning);
+    const idx = state.dictionaryValueStates.findIndex(s => s.dictionaryMeaning === action.dictionaryMeaning);
     const dvs = [...state.dictionaryValueStates];
 
     if (idx >= 0) {
@@ -93,7 +95,7 @@ const reducer = createReducer(initialDictionaryState,
     };
   }),
   on(resetDictionaryValues, (state, action) => {
-    const idx = state.dictionaryValueStates.findIndex(dv => dv.dictionaryMeaning === action.dictionaryMeaning);
+    const idx = state.dictionaryValueStates.findIndex(s => s.dictionaryMeaning === action.dictionaryMeaning);
     const dvs = [...state.dictionaryValueStates];
 
     if (idx >= 0) {
@@ -106,8 +108,60 @@ const reducer = createReducer(initialDictionaryState,
       dictionaryValueStates: dvs
     };
   }),
+  on(dictionaryValueAdd, (state, action) => {
+    const idx = state.dictionaryValueStates.findIndex(s => s.dictionaryMeaning === action.dictionaryMeaning);
+    const dvs = [...state.dictionaryValueStates];
+
+    if (idx >= 0) {
+      const values = [...dvs[idx].dictionaryValues, new DictionaryValue()];
+
+      const dv: DictionaryValueState = {
+        dictionaryMeaning: action.dictionaryMeaning,
+        dictionaryValues: values,
+        dictionaryValuesLoadStatus: dvs[idx].dictionaryValuesLoadStatus,
+        dictionaryValuesLoadError: dvs[idx].dictionaryValuesLoadError
+      };
+
+      // remove the old one (if it existed)
+      dvs.splice(idx, 1, dv);
+    }
+
+    return {
+      ...state,
+      dictionaryValueStates: dvs
+    };
+  }),
+  on(dictionaryValueCancel, (state, action) => {
+    // if we are canceling a new Dictionary Value
+    const idx = state.dictionaryValueStates.findIndex(s => s.dictionaryMeaning === action.dictionaryMeaning);
+    const dvs = [...state.dictionaryValueStates];
+
+    if (!action.dictionaryValue.dictionaryValueId && idx >= 0) {
+      const values = [...dvs[idx].dictionaryValues];
+      const existingIdx = values.findIndex(v => v.dictionaryValueId === action.dictionaryValue.dictionaryValueId);
+      if (existingIdx >= 0) {
+        // remove the new Dictionary Value that was canceled
+        values.splice(existingIdx, 1);
+      }
+
+      const dv: DictionaryValueState = {
+        dictionaryMeaning: action.dictionaryMeaning,
+        dictionaryValues: values,
+        dictionaryValuesLoadStatus: dvs[idx].dictionaryValuesLoadStatus,
+        dictionaryValuesLoadError: dvs[idx].dictionaryValuesLoadError
+      };
+
+      // remove the old one (if it existed)
+      dvs.splice(idx, 1, dv);
+    }
+
+    return {
+      ...state,
+      dictionaryValueStates: dvs
+    };
+  }),
   on(dictionaryValueSaveCreated, (state, action) => {
-    const idx = state.dictionaryValueStates.findIndex(dv => dv.dictionaryMeaning === action.dictionaryMeaning);
+    const idx = state.dictionaryValueStates.findIndex(s => s.dictionaryMeaning === action.dictionaryMeaning);
     const dvs = [...state.dictionaryValueStates];
 
     if (idx >= 0) {
@@ -131,12 +185,12 @@ const reducer = createReducer(initialDictionaryState,
     };
   }),
   on(dictionaryValueSaveUpdated, (state, action) => {
-    const idx = state.dictionaryValueStates.findIndex(dv => dv.dictionaryMeaning === action.dictionaryMeaning);
+    const idx = state.dictionaryValueStates.findIndex(s => s.dictionaryMeaning === action.dictionaryMeaning);
     const dvs = [...state.dictionaryValueStates];
 
     if (idx >= 0) {
       const values = [...dvs[idx].dictionaryValues];
-      const existingIdx = values.findIndex(value => value.dictionaryValueId === action.dictionaryValue.dictionaryValueId);
+      const existingIdx = values.findIndex(v => v.dictionaryValueId === action.dictionaryValue.dictionaryValueId);
       if (existingIdx >= 0) {
         values.splice(existingIdx, 1, action.dictionaryValue);
       }
@@ -159,12 +213,12 @@ const reducer = createReducer(initialDictionaryState,
     };
   }),
   on(dictionaryValueDeleteSucceeded, (state, action) => {
-    const idx = state.dictionaryValueStates.findIndex(dv => dv.dictionaryMeaning === action.dictionaryMeaning);
+    const idx = state.dictionaryValueStates.findIndex(s => s.dictionaryMeaning === action.dictionaryMeaning);
     const dvs = [...state.dictionaryValueStates];
 
     if (idx >= 0) {
       const values = [...dvs[idx].dictionaryValues];
-      const existingIdx = values.findIndex(value => value.dictionaryValueId === action.dictionaryValue.dictionaryValueId);
+      const existingIdx = values.findIndex(v => v.dictionaryValueId === action.dictionaryValue.dictionaryValueId);
       if (existingIdx >= 0) {
         values.splice(existingIdx, 1);
       }

@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
+import {Store} from '@ngrx/store';
 import {catchError, exhaustMap, map, tap, withLatestFrom} from 'rxjs/operators';
+import {EMPTY, of} from 'rxjs';
 
 import {CgtNotificationService} from '@cagst/ngx-components';
 
@@ -22,8 +24,6 @@ import {
 import {DictionaryService} from '../../../../core/dictionary/dictionary-service';
 import {selectDictionaryValueStates} from './dictionary-store.selectors';
 import {DictionaryState, LoadStatus} from './dictionary-store.state';
-import {EMPTY} from 'rxjs';
-import {Store} from '@ngrx/store';
 
 @Injectable()
 export class DictionaryStoreEffects {
@@ -42,7 +42,7 @@ export class DictionaryStoreEffects {
       exhaustMap(() => this._dictionaryService.getDictionaries(0, 0)
         .pipe(
           map(dictionaries => loadDictionariesSucceeded({dictionaries})),
-          catchError(error => loadDictionariesFailed)
+          catchError(err => of(loadDictionariesFailed({error: err.error.message})))
         )
       )
     )
@@ -57,14 +57,18 @@ export class DictionaryStoreEffects {
       ofType(loadDictionaryValues),
       withLatestFrom(this._dictionaryStore.select(selectDictionaryValueStates)),
       exhaustMap(([action, states]) => {
-        const valueState = states.find(dvs => dvs.dictionaryMeaning === action.dictionaryMeaning);
-        if (valueState && (valueState.dictionaryValuesLoadStatus === LoadStatus.Loaded || valueState.dictionaryValuesLoadStatus === LoadStatus.NoContent)) {
+        const vs = states.find(dvs => dvs.dictionaryMeaning === action.dictionaryMeaning);
+        if (vs && (vs.dictionaryValuesLoadStatus === LoadStatus.Loaded || vs.dictionaryValuesLoadStatus === LoadStatus.NoContent)) {
           return EMPTY;
         } else {
           return this._dictionaryService.getDictionaryValues(action.dictionaryMeaning, 0, 0)
             .pipe(
-              map(results => loadDictionaryValuesSucceeded({dictionaryMeaning: action.dictionaryMeaning, values: results})),
-              catchError(error => loadDictionaryValuesFailed)
+              map(results =>
+                loadDictionaryValuesSucceeded({dictionaryMeaning: action.dictionaryMeaning, values: results})
+              ),
+              catchError(err =>
+                of(loadDictionaryValuesFailed({dictionaryMeaning: action.dictionaryMeaning, error: err.error.message}))
+              )
             );
         }
       })
@@ -81,14 +85,34 @@ export class DictionaryStoreEffects {
         if (action.dictionaryValue.dictionaryValueId) {
           return this._dictionaryService.updateDictionaryValue(action.dictionaryMeaning, action.dictionaryValue)
             .pipe(
-              map(result => dictionaryValueSaveUpdated({dictionaryMeaning: action.dictionaryMeaning, dictionaryValue: result})),
-              catchError(error => dictionaryValueSaveFailed)
+              map(result =>
+                dictionaryValueSaveUpdated({dictionaryMeaning: action.dictionaryMeaning, dictionaryValue: result})
+              ),
+              catchError(err => {
+                const errorResponse = {
+                  dictionaryMeaning: action.dictionaryMeaning,
+                  dictionaryValue: action.dictionaryValue,
+                  error: err.error.message
+                };
+
+                return of(dictionaryValueSaveFailed(errorResponse));
+              })
             );
         } else {
           return this._dictionaryService.createDictionaryValue(action.dictionaryMeaning, action.dictionaryValue)
             .pipe(
-              map(result => dictionaryValueSaveCreated({dictionaryMeaning: action.dictionaryMeaning, dictionaryValue: result})),
-              catchError(error => dictionaryValueSaveFailed)
+              map(result =>
+                dictionaryValueSaveCreated({dictionaryMeaning: action.dictionaryMeaning, dictionaryValue: result})
+              ),
+              catchError(err => {
+                const errorResponse = {
+                  dictionaryMeaning: action.dictionaryMeaning,
+                  dictionaryValue: action.dictionaryValue,
+                  error: err.error.message
+                };
+
+                return of(dictionaryValueSaveFailed(errorResponse));
+              })
             );
         }
       })
@@ -111,10 +135,7 @@ export class DictionaryStoreEffects {
   public dictionaryValueSaveUpdated$ = createEffect(() => this._actions$
     .pipe(
       ofType(dictionaryValueSaveUpdated),
-      tap(action => {
-        console.log('DictionaryStore::dictionaryValueSaveUpdated');
-        return this._notificationService.success(`${action.dictionaryValue.display} was updated.`);
-      })
+      tap(action => this._notificationService.success(`${action.dictionaryValue.display} was updated.`))
     ), {dispatch: false}
   );
 
@@ -136,8 +157,18 @@ export class DictionaryStoreEffects {
       ofType(dictionaryValueDelete),
       exhaustMap(action => this._dictionaryService.deleteDictionaryValue(action.dictionaryMeaning, action.dictionaryValue)
         .pipe(
-          map(() => dictionaryValueDeleteSucceeded({dictionaryMeaning: action.dictionaryMeaning, dictionaryValue: action.dictionaryValue})),
-          catchError(error => dictionaryValueDeleteFailed)
+          map(() =>
+            dictionaryValueDeleteSucceeded({dictionaryMeaning: action.dictionaryMeaning, dictionaryValue: action.dictionaryValue})
+          ),
+          catchError(err => {
+            const errorResponse = {
+              dictionaryMeaning: action.dictionaryMeaning,
+              dictionaryValue: action.dictionaryValue,
+              error: err.error.message
+            };
+
+            return of(dictionaryValueDeleteFailed(errorResponse));
+          })
         )
       )
     )
@@ -159,8 +190,9 @@ export class DictionaryStoreEffects {
   public dictionaryValueDeleteFailed = createEffect(() => this._actions$
     .pipe(
       ofType(dictionaryValueDeleteFailed),
-      tap(action => this._notificationService.failure(`Failed to delete ${action.dictionaryValue.display}.`))
+      tap(action =>
+        this._notificationService.failure(`Failed to delete ${action.dictionaryValue.display} due to ${action.error}.`)
+      )
     ), {dispatch: false}
   );
-
 }
