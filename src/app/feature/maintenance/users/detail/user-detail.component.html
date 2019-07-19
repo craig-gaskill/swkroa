@@ -1,0 +1,20 @@
+<form [formGroup]="formGroup" novalidate>
+  <mat-divider [inset]="true"></mat-divider>
+  <div class="row">
+    <cgt-input id="firstName"
+               name="firstName"
+               label="First Name"
+               [required]="true"
+               [editing]="editing"
+               formControlName="firstName">
+    </cgt-input>
+
+    <cgt-input id="lastName"
+               name="lastName"
+               label="Last Name"
+               [required]="true"
+               [editing]="editing"
+               formControlName="lastName">
+    </cgt-input>
+  </div>
+</form>

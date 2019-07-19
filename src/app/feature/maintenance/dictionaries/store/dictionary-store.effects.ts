@@ -21,7 +21,7 @@ import {
   loadDictionaryValuesFailed,
   loadDictionaryValuesSucceeded
 } from './dictionary-store.actions';
-import {DictionaryService} from '../../../../core/dictionary/dictionary-service';
+import {DictionaryService} from '../../../../core/dictionary/dictionary.service';
 import {selectDictionaryValueStates} from './dictionary-store.selectors';
 import {DictionaryState, LoadStatus} from './dictionary-store.state';
 

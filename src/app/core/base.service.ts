@@ -4,7 +4,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {throwError} from 'rxjs';
 
 export abstract class BaseService {
-  private readonly JSON_CONVERT = new JsonConvert(OperationMode.ENABLE, ValueCheckingMode.DISALLOW_NULL);
+  protected readonly JSON_CONVERT = new JsonConvert(OperationMode.ENABLE, ValueCheckingMode.DISALLOW_NULL);
 
   /**
    * Custom operator to deserialize a single object of a given type. Tslint is disabled because it thinks the semicolon is unnecessary.

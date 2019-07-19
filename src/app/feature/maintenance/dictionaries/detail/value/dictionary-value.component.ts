@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup} from '@angular/forms';
 import {MatDialog} from '@angular/material';
 
 import {CgtConfirmationComponent, CgtConfirmationContext} from '@cagst/ngx-components';
@@ -16,7 +16,7 @@ import {DictionariesManager} from '../../dictionaries.manager';
 export class DictionaryValueComponent implements OnInit {
   private _dictionaryValue: DictionaryValue;
 
-  public valueForm: FormGroup;
+  public formGroup: FormGroup;
   public editing = false;
 
   @Input() public dictionaryMeaning: string;
@@ -28,7 +28,7 @@ export class DictionaryValueComponent implements OnInit {
   public set dictionaryValue(value: DictionaryValue) {
     this._dictionaryValue = value;
 
-    this.valueForm.reset({
+    this.formGroup.reset({
       display: value ? value.display : undefined,
       meaning: value ? value.meaning : undefined
     });
@@ -38,9 +38,9 @@ export class DictionaryValueComponent implements OnInit {
               private _dialog: MatDialog,
               private _dictionariesManager: DictionariesManager
   ) {
-    this.valueForm = this._formBuilder.group({
-      display: [undefined, [Validators.required]],
-      meaning: [undefined, [Validators.required]]
+    this.formGroup = this._formBuilder.group({
+      display: undefined,
+      meaning: undefined
     });
   }
 
@@ -76,7 +76,7 @@ export class DictionaryValueComponent implements OnInit {
   }
 
   public onSave(): void {
-    const formModel = this.valueForm.value;
+    const formModel = this.formGroup.value;
 
     const dv: DictionaryValue = new DictionaryValue();
     dv.dictionaryValueId = this._dictionaryValue.dictionaryValueId;

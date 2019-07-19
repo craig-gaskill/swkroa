@@ -28,17 +28,17 @@ export class DictionaryService extends BaseService {
   private readonly BASE_URL: string;
 
   constructor(private _httpClient: HttpClient,
-              @Inject('DictionaryServiceConfig') private config: DictionaryServiceConfig
+              @Inject('DictionaryServiceConfig') private _config: DictionaryServiceConfig
   ) {
     super();
-    this.BASE_URL = config.baseUrl;
+    this.BASE_URL = _config.baseUrl;
   }
 
   /**
    * Get the list of available dictionaries.
    *
-   * @param start Optional low-end parameter used in pagination. Set to <code>pageSize * (pageNumber - 1)</code>.
-   * @param limit Optional high-end parameter used in pagination. Set to <code>pageSize</code>.
+   * @param start Optional low-end parameter used in pagination.
+   * @param limit Optional high-end parameter used in pagination.
    * @param name Optional search parameter used to filter the returned results.
    *
    * @returns An {@link Observable} of {@link Dictionary} objects.
@@ -52,7 +52,7 @@ export class DictionaryService extends BaseService {
       params = params.set('name', name);
     }
 
-    return this._httpClient.get<any>(this.BASE_URL, {params})
+    return this._httpClient.get<Dictionary[]>(this.BASE_URL, {params})
       .pipe(
         this.deserializeJsonArray(Dictionary),
         catchError(this.handleError)

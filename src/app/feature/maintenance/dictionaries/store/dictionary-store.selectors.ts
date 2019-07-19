@@ -8,7 +8,8 @@ const getDictionaryLoadStatus  = (state: DictionaryState): LoadStatus => state.d
 const getDictionaryLoadError   = (state: DictionaryState): string => state.dictionariesLoadError;
 const getDictionaryValueStates = (state: DictionaryState): DictionaryValueState[] => state.dictionaryValueStates;
 
-export const selectDictionaryState      = createFeatureSelector<DictionaryState>('dictionaries');
+const selectDictionaryState      = createFeatureSelector<DictionaryState>('dictionaryStore');
+
 export const selectAllDictionaries      = createSelector(selectDictionaryState, getAllDictionaries);
 export const selectDictionaryLoadStatus = createSelector(selectDictionaryState, getDictionaryLoadStatus);
 export const selectDictionaryLoadError  = createSelector(selectDictionaryState, getDictionaryLoadError);

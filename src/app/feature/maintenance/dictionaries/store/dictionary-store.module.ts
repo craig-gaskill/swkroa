@@ -9,7 +9,7 @@ import {DictionaryStoreEffects} from './dictionary-store.effects';
 @NgModule({
   imports: [
     CommonModule,
-    StoreModule.forFeature('dictionaries', dictionaryReducer),
+    StoreModule.forFeature('dictionaryStore', dictionaryReducer),
     EffectsModule.forFeature([DictionaryStoreEffects])
   ],
   providers: [

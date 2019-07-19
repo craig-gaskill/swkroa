@@ -8,12 +8,6 @@ export enum LoadStatus {
   Error
 }
 
-export enum ViewStatus {
-  View,
-  Add,
-  Edit
-}
-
 export interface DictionaryValueState {
   dictionaryMeaning: string;
   dictionaryValues: DictionaryValue[];

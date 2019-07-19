@@ -11,6 +11,7 @@ import {HomeModule} from './feature/home/home.module';
 
 import {ConfigureAuthenticationService} from './core/config/authentication-service.config';
 import {ConfigureDictionaryService} from './core/config/dictionary-service.config';
+import {ConfigureUserService} from './core/config/user-service.config';
 
 import {AuthenticationInterceptor} from './security/interceptor/authentication.interceptor';
 
@@ -48,6 +49,10 @@ import {LoginComponent} from './security/login/login.component';
     {
       provide: 'DictionaryServiceConfig',
       useClass: ConfigureDictionaryService
+    },
+    {
+      provide: 'UserServiceConfig',
+      useClass: ConfigureUserService
     }
   ],
   bootstrap: [AppComponent]
