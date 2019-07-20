@@ -8,6 +8,7 @@ import {UsersManager} from '../users.manager';
 @Component({
   selector: 'swkroa-user-detail',
   templateUrl: './user-detail.component.html',
+  styleUrls: ['./user-detail.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserDetailComponent implements OnInit {
@@ -23,11 +24,7 @@ export class UserDetailComponent implements OnInit {
 
   public set user(value: User) {
     this._user = value;
-
-    this.formGroup.reset({
-      firstName: value ? value.person.firstName : undefined,
-      lastName: value ? value.person.lastName : undefined
-    });
+    this.resetForm(this._user);
   }
 
   constructor(private _formBuilder: FormBuilder,
@@ -36,10 +33,19 @@ export class UserDetailComponent implements OnInit {
   ) {
     this.formGroup = this._formBuilder.group({
       firstName: undefined,
+      middleName: undefined,
       lastName: undefined
     });
   }
 
   public ngOnInit(): void {
+  }
+
+  private resetForm(user: User) {
+    this.formGroup.reset({
+      firstName: user ? user.person.firstName : undefined,
+      middleName: user ? user.person.middleName : undefined,
+      lastName: user ? user.person.lastName : undefined
+    });
   }
 }

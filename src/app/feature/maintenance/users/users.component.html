@@ -1,8 +1,9 @@
-<h4>USERS</h4>
+<h4>Users</h4>
 <mat-accordion>
   <mat-expansion-panel *ngFor="let user of users$ | async">
-    <mat-expansion-panel-header>
-      <mat-expansion-panel-header>{{user.person.firstName}}</mat-expansion-panel-header>
-    </mat-expansion-panel-header>
+    <mat-expansion-panel-header>{{user.person | cgtNameFormat}}</mat-expansion-panel-header>
+
+    <swkroa-user-detail [user]="user">
+    </swkroa-user-detail>
   </mat-expansion-panel>
 </mat-accordion>

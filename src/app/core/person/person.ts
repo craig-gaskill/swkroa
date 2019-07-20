@@ -1,7 +1,8 @@
 import {JsonObject, JsonProperty} from 'json2typescript';
+import {CgtPerson} from '@cagst/ngx-person';
 
 @JsonObject('Person')
-export class Person {
+export class Person implements CgtPerson {
   @JsonProperty('personId', Number, true)
   public personId: number = undefined;
 
