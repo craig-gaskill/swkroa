@@ -4,6 +4,7 @@ import {MatDialog} from '@angular/material';
 
 import {User} from '../../../../core/user/user';
 import {UsersManager} from '../users.manager';
+import {CgtConfirmationComponent, CgtConfirmationContext} from '@cagst/ngx-components';
 
 @Component({
   selector: 'swkroa-user-detail',
@@ -39,6 +40,25 @@ export class UserDetailComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+  }
+
+  public onEdit(): void {
+    this.editing = true;
+  }
+
+  public onDelete(): void {
+    const confirmDelete: CgtConfirmationContext = {
+      title: 'Please Confirm',
+      message: `Are you sure you want to delete <b>${this.user.person}</b>?`,
+      acceptText: 'Confirm',
+      acceptData: 'CONFIRM',
+      declineText: 'Cancel',
+      declineData: 'CANCEL'
+    };
+
+    this._dialog.open(CgtConfirmationComponent, {data: confirmDelete, autoFocus: false})
+      .afterClosed()
+      .subscribe(result => result === confirmDelete.acceptData ? this._usersManager.deleteUser(this._user) : undefined);
   }
 
   private resetForm(user: User) {

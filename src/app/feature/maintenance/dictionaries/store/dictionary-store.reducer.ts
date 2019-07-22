@@ -2,17 +2,10 @@ import {Action, createReducer, on} from '@ngrx/store';
 
 import {DictionaryState, DictionaryValueState, initialDictionaryState, LoadStatus} from './dictionary-store.state';
 import {
-  dictionaryValueAdd, dictionaryValueCancel,
-  dictionaryValueDeleteSucceeded,
-  dictionaryValueSaveCreated, dictionaryValueSaveUpdated,
-  loadDictionaries,
-  loadDictionariesFailed,
-  loadDictionariesSucceeded,
-  loadDictionaryValues,
-  loadDictionaryValuesFailed,
-  loadDictionaryValuesSucceeded,
-  resetDictionaries,
-  resetDictionaryValues
+  dictionaryValueAdd, dictionaryValueCancel, dictionaryValueCreated, dictionaryValueUpdated, dictionaryValueDeleted,
+  loadDictionaries, loadDictionariesFailed, loadDictionariesSucceeded,
+  loadDictionaryValues, loadDictionaryValuesFailed, loadDictionaryValuesSucceeded,
+  resetDictionaries, resetDictionaryValues, dictionaryValueEdit
 } from './dictionary-store.actions';
 import {DictionaryValue} from '../../../../core/dictionary/dictionary-value';
 
@@ -160,7 +153,7 @@ const reducer = createReducer(initialDictionaryState,
       dictionaryValueStates: dvs
     };
   }),
-  on(dictionaryValueSaveCreated, (state, action) => {
+  on(dictionaryValueCreated, (state, action) => {
     const idx = state.dictionaryValueStates.findIndex(s => s.dictionaryMeaning === action.dictionaryMeaning);
     const dvs = [...state.dictionaryValueStates];
 
@@ -186,7 +179,7 @@ const reducer = createReducer(initialDictionaryState,
       dictionaryValueStates: dvs
     };
   }),
-  on(dictionaryValueSaveUpdated, (state, action) => {
+  on(dictionaryValueUpdated, (state, action) => {
     const idx = state.dictionaryValueStates.findIndex(s => s.dictionaryMeaning === action.dictionaryMeaning);
     const dvs = [...state.dictionaryValueStates];
 
@@ -214,7 +207,7 @@ const reducer = createReducer(initialDictionaryState,
       dictionaryValueStates: dvs
     };
   }),
-  on(dictionaryValueDeleteSucceeded, (state, action) => {
+  on(dictionaryValueDeleted, (state, action) => {
     const idx = state.dictionaryValueStates.findIndex(s => s.dictionaryMeaning === action.dictionaryMeaning);
     const dvs = [...state.dictionaryValueStates];
 

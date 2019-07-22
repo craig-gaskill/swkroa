@@ -24,4 +24,35 @@
                formControlName="lastName">
     </cgt-input>
   </div>
+
+  <div class="button-row">
+    <ng-container *ngIf="!editing">
+      <button mat-raised-button
+              type="button"
+              color="primary"
+              (click)="onEdit()">
+        Edit
+      </button>
+      <button mat-raised-button
+              type="button"
+              (click)="onDelete()">
+        Delete
+      </button>
+    </ng-container>
+
+    <ng-container *ngIf="editing">
+      <button mat-raised-button
+              type="button"
+              color="primary"
+              [disabled]="formGroup.invalid || formGroup.pristine"
+              (click)="onSave()">
+        Save
+      </button>
+      <button mat-raised-button
+              type="button"
+              (click)="onCancel()">
+        Cancel
+      </button>
+    </ng-container>
+  </div>
 </form>

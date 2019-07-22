@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
+import {CgtConfigurationService, CgtFieldAppearance} from '@cagst/ngx-configuration';
 
 @Component({
   selector: 'swkroa-app',
@@ -7,4 +8,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   public isLoggedIn = true;
+
+  constructor(private _configService: CgtConfigurationService) {
+    this._configService.changeFieldAppearance(CgtFieldAppearance.STANDARD);
+  }
+
 }

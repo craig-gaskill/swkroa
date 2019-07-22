@@ -26,4 +26,22 @@ export class UsersManager {
     this._userStore.dispatch(loadUsers());
     return this._userStore.select(selectUsersLoadStatus);
   }
+
+  /**
+   * Will reset the UsersStore back to its initial state.
+   */
+  public resetUsers(): void {
+  }
+
+  public addUser(): void {
+  }
+
+  public cancelUser(user: User): void {
+  }
+
+  public saveUser(user: User): void {
+  }
+
+  public deleteUser(user: User): void {
+  }
 }

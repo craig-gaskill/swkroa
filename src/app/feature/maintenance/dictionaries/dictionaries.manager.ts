@@ -39,7 +39,7 @@ export class DictionariesManager {
   }
 
   /**
-   * Will reset the dictionaries back to its initial state.
+   * Will reset the DictionariesStore back to its initial state.
    */
   public resetDictionaries(): void {
     this._dictionaryStore.dispatch(resetDictionaries());
@@ -71,7 +71,7 @@ export class DictionariesManager {
     this._dictionaryStore.dispatch(resetDictionaryValues({dictionaryMeaning}));
   }
 
-  public addDictionaryValue(dictionaryMeaning: string) {
+  public addDictionaryValue(dictionaryMeaning: string): void {
     this._dictionaryStore.dispatch(dictionaryValueAdd({dictionaryMeaning}));
   }
 

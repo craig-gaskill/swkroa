@@ -1,7 +1,16 @@
 import {Action, createReducer, on} from '@ngrx/store';
 
-import {loadUsers, loadUsersFailed, loadUsersSucceeded} from './user-store.actions';
+import {
+  loadUsers,
+  loadUsersFailed,
+  loadUsersSucceeded,
+  resetUsers,
+  userAdd, userCancel,
+  userCreated, userDeleted,
+  userUpdated
+} from './user-store.actions';
 import {initialUserState, LoadStatus, UserState} from './user-store.state';
+import {User} from '../../../../core/user/user';
 
 const reducer = createReducer(initialUserState,
   on(loadUsers, (state) => ({
@@ -19,7 +28,73 @@ const reducer = createReducer(initialUserState,
     ...state,
     usersLoadStatus: LoadStatus.Error,
     usersLoadError: action.error
-  }))
+  })),
+  on(resetUsers, () => initialUserState),
+  on(userAdd, (state) => {
+    const users = [...state.users, new User()];
+
+    return {
+      ...state,
+      users
+    };
+  }),
+  on(userCreated, (state, action) => {
+    const updatedUsers = [...state.users];
+
+    // the user was created successfully, remove the placeholder one (the one w/o an ID)
+    const idx = updatedUsers.findIndex(usr => !usr.userId);
+    if (idx >= 0) {
+      updatedUsers.splice(idx, 1, action.user);
+    }
+
+    return {
+      ...state,
+      users: updatedUsers
+    };
+  }),
+  on(userUpdated, (state, action) => {
+    const updatedUsers = [...state.users];
+
+    // the user was updated successfully, replace the existing one
+    const idx = updatedUsers.findIndex(usr => usr.userId === action.user.userId);
+    if (idx >= 0) {
+      updatedUsers.splice(idx, 1, action.user);
+    }
+
+    return {
+      ...state,
+      users: updatedUsers
+    };
+  }),
+  on(userDeleted, (state, action) => {
+    const updatedUsers = [...state.users];
+
+    // the user was deleted successfully, remove the existing one
+    const idx = updatedUsers.findIndex(usr => usr.userId === action.user.userId);
+    if (idx >= 0) {
+      updatedUsers.splice(idx, 1);
+    }
+
+    return {
+      ...state,
+      users: updatedUsers
+    };
+  }),
+  on(userCancel, (state) => {
+    const updatedUsers = [...state.users];
+
+    // the only thing we need to do (right now) for a cancel is remove the placeholder one
+    // that may have been added
+    const idx = updatedUsers.findIndex(usr => !usr.userId);
+    if (idx >= 0) {
+      updatedUsers.splice(idx, 1);
+    }
+
+    return {
+      ...state,
+      users: updatedUsers
+    };
+  })
 );
 
 export function userReducer(state: UserState | undefined, action: Action) {

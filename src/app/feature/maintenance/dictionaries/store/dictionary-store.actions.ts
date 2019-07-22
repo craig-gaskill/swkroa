@@ -18,9 +18,9 @@ export const dictionaryValueEdit            = createAction('[Dictionary Value] E
 export const dictionaryValueDelete          = createAction('[Dictionary Value] Delete', props<{dictionaryMeaning: string; dictionaryValue: DictionaryValue}>());
 export const dictionaryValueCancel          = createAction('[Dictionary Value] Cancel', props<{dictionaryMeaning: string; dictionaryValue: DictionaryValue}>());
 
-export const dictionaryValueSave            = createAction('[Dictionary Value] Save', props<{dictionaryMeaning: string; dictionaryValue: DictionaryValue}>());
-export const dictionaryValueSaveCreated     = createAction('[Dictionary Value] Save Created', props<{dictionaryMeaning: string; dictionaryValue: DictionaryValue}>());
-export const dictionaryValueSaveUpdated     = createAction('[Dictionary Value] Save Updated', props<{dictionaryMeaning: string; dictionaryValue: DictionaryValue}>());
-export const dictionaryValueSaveFailed      = createAction('[Dictionary Value] Save Failed', props<{dictionaryMeaning: string; dictionaryValue: DictionaryValue, error: string}>());
-export const dictionaryValueDeleteSucceeded = createAction('[Dictionary Value] Delete Succeeded', props<{dictionaryMeaning: string; dictionaryValue: DictionaryValue}>());
-export const dictionaryValueDeleteFailed    = createAction('[Dictionary Value] Delete Failed', props<{dictionaryMeaning: string; dictionaryValue: DictionaryValue, error: string}>());
+export const dictionaryValueSave         = createAction('[Dictionary Value] Save', props<{dictionaryMeaning: string; dictionaryValue: DictionaryValue}>());
+export const dictionaryValueCreated      = createAction('[Dictionary Value] Save Created', props<{dictionaryMeaning: string; dictionaryValue: DictionaryValue}>());
+export const dictionaryValueUpdated      = createAction('[Dictionary Value] Save Updated', props<{dictionaryMeaning: string; dictionaryValue: DictionaryValue}>());
+export const dictionaryValueDeleted      = createAction('[Dictionary Value] Delete Succeeded', props<{dictionaryMeaning: string; dictionaryValue: DictionaryValue}>());
+export const dictionaryValueSaveFailed   = createAction('[Dictionary Value] Save Failed', props<{dictionaryMeaning: string; dictionaryValue: DictionaryValue, error: string}>());
+export const dictionaryValueDeleteFailed = createAction('[Dictionary Value] Delete Failed', props<{dictionaryMeaning: string; dictionaryValue: DictionaryValue, error: string}>());

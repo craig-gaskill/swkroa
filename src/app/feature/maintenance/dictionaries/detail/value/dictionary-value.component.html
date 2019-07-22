@@ -20,31 +20,31 @@
 
   <div class="button-row">
     <ng-container *ngIf="!editing">
-      <button mat-raised-button
-              type="button"
+      <button type="button"
+              mat-raised-button
               color="primary"
               (click)="onEdit()">
-        Edit
+        EDIT
       </button>
-      <button mat-raised-button
-              type="button"
+      <button type="button"
+              mat-raised-button
               (click)="onDelete()">
-        Delete
+        DELETE
       </button>
     </ng-container>
 
     <ng-container *ngIf="editing">
-      <button mat-raised-button
-              type="button"
+      <button type="button"
+              mat-raised-button
               color="primary"
               [disabled]="formGroup.invalid || formGroup.pristine"
               (click)="onSave()">
-        Save
+        SAVE
       </button>
-      <button mat-raised-button
-              type="button"
+      <button type="button"
+              mat-button
               (click)="onCancel()">
-        Cancel
+        CANCEL
       </button>
     </ng-container>
   </div>

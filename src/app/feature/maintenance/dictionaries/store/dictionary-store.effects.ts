@@ -7,19 +7,10 @@ import {EMPTY, of} from 'rxjs';
 import {CgtNotificationService} from '@cagst/ngx-components';
 
 import {
-  dictionaryValueDelete,
-  dictionaryValueDeleteFailed,
-  dictionaryValueDeleteSucceeded,
-  dictionaryValueSave,
-  dictionaryValueSaveCreated,
-  dictionaryValueSaveFailed,
-  dictionaryValueSaveUpdated,
-  loadDictionaries,
-  loadDictionariesFailed,
-  loadDictionariesSucceeded,
-  loadDictionaryValues,
-  loadDictionaryValuesFailed,
-  loadDictionaryValuesSucceeded
+  dictionaryValueDelete, dictionaryValueDeleted, dictionaryValueDeleteFailed,
+  dictionaryValueSave, dictionaryValueCreated, dictionaryValueUpdated, dictionaryValueSaveFailed,
+  loadDictionaries, loadDictionariesFailed, loadDictionariesSucceeded,
+  loadDictionaryValues, loadDictionaryValuesFailed, loadDictionaryValuesSucceeded
 } from './dictionary-store.actions';
 import {DictionaryService} from '../../../../core/dictionary/dictionary.service';
 import {selectDictionaryValueStates} from './dictionary-store.selectors';
@@ -86,7 +77,7 @@ export class DictionaryStoreEffects {
           return this._dictionaryService.updateDictionaryValue(action.dictionaryMeaning, action.dictionaryValue)
             .pipe(
               map(result =>
-                dictionaryValueSaveUpdated({dictionaryMeaning: action.dictionaryMeaning, dictionaryValue: result})
+                dictionaryValueUpdated({dictionaryMeaning: action.dictionaryMeaning, dictionaryValue: result})
               ),
               catchError(err => {
                 const errorResponse = {
@@ -102,7 +93,7 @@ export class DictionaryStoreEffects {
           return this._dictionaryService.createDictionaryValue(action.dictionaryMeaning, action.dictionaryValue)
             .pipe(
               map(result =>
-                dictionaryValueSaveCreated({dictionaryMeaning: action.dictionaryMeaning, dictionaryValue: result})
+                dictionaryValueCreated({dictionaryMeaning: action.dictionaryMeaning, dictionaryValue: result})
               ),
               catchError(err => {
                 const errorResponse = {
@@ -124,7 +115,7 @@ export class DictionaryStoreEffects {
    */
   public dictionaryValueSaveCreated$ = createEffect(() => this._actions$
     .pipe(
-      ofType(dictionaryValueSaveCreated),
+      ofType(dictionaryValueCreated),
       tap(action => this._notificationService.success(`${action.dictionaryValue.display} was created.`))
     ), {dispatch: false}
   );
@@ -134,7 +125,7 @@ export class DictionaryStoreEffects {
    */
   public dictionaryValueSaveUpdated$ = createEffect(() => this._actions$
     .pipe(
-      ofType(dictionaryValueSaveUpdated),
+      ofType(dictionaryValueUpdated),
       tap(action => this._notificationService.success(`${action.dictionaryValue.display} was updated.`))
     ), {dispatch: false}
   );
@@ -158,7 +149,7 @@ export class DictionaryStoreEffects {
       exhaustMap(action => this._dictionaryService.deleteDictionaryValue(action.dictionaryMeaning, action.dictionaryValue)
         .pipe(
           map(() =>
-            dictionaryValueDeleteSucceeded({dictionaryMeaning: action.dictionaryMeaning, dictionaryValue: action.dictionaryValue})
+            dictionaryValueDeleted({dictionaryMeaning: action.dictionaryMeaning, dictionaryValue: action.dictionaryValue})
           ),
           catchError(err => {
             const errorResponse = {
@@ -179,7 +170,7 @@ export class DictionaryStoreEffects {
    */
   public dictionaryValueDeleteSuccess$ = createEffect(() => this._actions$
     .pipe(
-      ofType(dictionaryValueDeleteSucceeded),
+      ofType(dictionaryValueDeleted),
       tap(action => this._notificationService.success(`${action.dictionaryValue.display} was deleted.`))
     ), {dispatch: false}
   );
