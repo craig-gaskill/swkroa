@@ -10,7 +10,7 @@
                               [dictionary]="dictionary">
     </swkroa-dictionary-detail>
 
-    <mat-action-row>
+    <mat-action-row *ngIf="(viewStatus$ | async) === VIEW_STATUS.View">
       <button mat-button color="accent" (click)="onAddDictionaryValue(dictionary.meaning)">
         Add {{dictionary.display}}
       </button>

@@ -8,9 +8,9 @@ export const loadUsersFailed    = createAction('[Users] Load Failed', props<{err
 export const resetUsers         = createAction('[Users] Reset');
 
 export const userAdd    = createAction('[User] Add');
-export const userEdit   = createAction('[User] Edit');
-export const userDelete = createAction('[User] Delete');
-export const userCancel = createAction('[User] Cancel');
+export const userEdit   = createAction('[User] Edit', props<{user: User}>());
+export const userDelete = createAction('[User] Delete', props<{user: User}>());
+export const userCancel = createAction('[User] Cancel', props<{user: User}>());
 
 export const userSave         = createAction('[User] Save', props<{user: User}>());
 export const userCreated      = createAction('[User] Created', props<{user: User}>());

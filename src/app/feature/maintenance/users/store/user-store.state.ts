@@ -1,20 +1,16 @@
+import {LoadStatus, ViewStatus} from '../../../../app-store.state';
 import {User} from '../../../../core/user/user';
-
-export enum LoadStatus {
-  Loading,
-  Loaded,
-  NoContent,
-  Error
-}
 
 export interface UserState {
   users: User[];
   usersLoadStatus: LoadStatus;
   usersLoadError: string;
+  usersViewStatus: ViewStatus;
 }
 
 export const initialUserState: UserState = {
   users: undefined,
   usersLoadStatus: undefined,
-  usersLoadError: undefined
+  usersLoadError: undefined,
+  usersViewStatus: ViewStatus.View
 };

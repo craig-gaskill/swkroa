@@ -1,6 +1,6 @@
 import {Action, createReducer, on} from '@ngrx/store';
 
-import {DictionaryState, DictionaryValueState, initialDictionaryState, LoadStatus} from './dictionary-store.state';
+import {DictionaryState, DictionaryValueState, initialDictionaryState} from './dictionary-store.state';
 import {
   dictionaryValueAdd, dictionaryValueCancel, dictionaryValueCreated, dictionaryValueUpdated, dictionaryValueDeleted,
   loadDictionaries, loadDictionariesFailed, loadDictionariesSucceeded,
@@ -8,6 +8,7 @@ import {
   resetDictionaries, resetDictionaryValues, dictionaryValueEdit
 } from './dictionary-store.actions';
 import {DictionaryValue} from '../../../../core/dictionary/dictionary-value';
+import {LoadStatus, ViewStatus} from '../../../../app-store.state';
 
 const reducer = createReducer(initialDictionaryState,
   on(loadDictionaries, (state) => ({
@@ -121,9 +122,14 @@ const reducer = createReducer(initialDictionaryState,
 
     return {
       ...state,
-      dictionaryValueStates: dvs
+      dictionaryValueStates: dvs,
+      dictionaryViewStatus: ViewStatus.Add
     };
   }),
+  on(dictionaryValueEdit, (state) => ({
+    ...state,
+    dictionaryViewStatus: ViewStatus.Edit
+  })),
   on(dictionaryValueCancel, (state, action) => {
     // if we are canceling a new Dictionary Value
     const idx = state.dictionaryValueStates.findIndex(s => s.dictionaryMeaning === action.dictionaryMeaning);
@@ -150,7 +156,8 @@ const reducer = createReducer(initialDictionaryState,
 
     return {
       ...state,
-      dictionaryValueStates: dvs
+      dictionaryValueStates: dvs,
+      dictionaryViewStatus: ViewStatus.View
     };
   }),
   on(dictionaryValueCreated, (state, action) => {
@@ -176,7 +183,8 @@ const reducer = createReducer(initialDictionaryState,
 
     return {
       ...state,
-      dictionaryValueStates: dvs
+      dictionaryValueStates: dvs,
+      dictionaryViewStatus: ViewStatus.View
     };
   }),
   on(dictionaryValueUpdated, (state, action) => {
@@ -204,7 +212,8 @@ const reducer = createReducer(initialDictionaryState,
 
     return {
       ...state,
-      dictionaryValueStates: dvs
+      dictionaryValueStates: dvs,
+      dictionaryViewStatus: ViewStatus.View
     };
   }),
   on(dictionaryValueDeleted, (state, action) => {

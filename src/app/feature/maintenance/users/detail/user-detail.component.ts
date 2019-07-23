@@ -5,6 +5,8 @@ import {MatDialog} from '@angular/material';
 import {User} from '../../../../core/user/user';
 import {UsersManager} from '../users.manager';
 import {CgtConfirmationComponent, CgtConfirmationContext} from '@cagst/ngx-components';
+import {ViewStatus} from '../../../../app-store.state';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'swkroa-user-detail',
@@ -13,9 +15,12 @@ import {CgtConfirmationComponent, CgtConfirmationContext} from '@cagst/ngx-compo
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserDetailComponent implements OnInit {
+  public readonly VIEW_STATUS = ViewStatus;
+
   private _user: User;
 
   public formGroup: FormGroup;
+  public viewStatus$: Observable<ViewStatus>;
   public editing = false;
 
   @Input()
@@ -40,10 +45,18 @@ export class UserDetailComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    if (this._user && !this._user.userId) {
+      // if it is a new User
+      // place in edit mode so they can complete it
+      this.editing = true;
+    }
+
+    this.viewStatus$ = this._usersManager.getViewStatus();
   }
 
   public onEdit(): void {
     this.editing = true;
+    this._usersManager.editUser(this._user);
   }
 
   public onDelete(): void {
@@ -59,6 +72,16 @@ export class UserDetailComponent implements OnInit {
     this._dialog.open(CgtConfirmationComponent, {data: confirmDelete, autoFocus: false})
       .afterClosed()
       .subscribe(result => result === confirmDelete.acceptData ? this._usersManager.deleteUser(this._user) : undefined);
+  }
+
+  public onSave(): void {
+    const formModel = this.formGroup.value;
+  }
+
+  public onCancel(): void {
+    this.editing = false;
+    this.user = this._user;
+    this._usersManager.cancelUser(this._user);
   }
 
   private resetForm(user: User) {

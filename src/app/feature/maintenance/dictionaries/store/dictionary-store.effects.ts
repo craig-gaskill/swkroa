@@ -14,7 +14,8 @@ import {
 } from './dictionary-store.actions';
 import {DictionaryService} from '../../../../core/dictionary/dictionary.service';
 import {selectDictionaryValueStates} from './dictionary-store.selectors';
-import {DictionaryState, LoadStatus} from './dictionary-store.state';
+import {DictionaryState} from './dictionary-store.state';
+import {LoadStatus} from '../../../../app-store.state';
 
 @Injectable()
 export class DictionaryStoreEffects {

@@ -6,11 +6,12 @@ import {
   loadUsersSucceeded,
   resetUsers,
   userAdd, userCancel,
-  userCreated, userDeleted,
+  userCreated, userDeleted, userEdit,
   userUpdated
 } from './user-store.actions';
-import {initialUserState, LoadStatus, UserState} from './user-store.state';
+import {initialUserState, UserState} from './user-store.state';
 import {User} from '../../../../core/user/user';
+import {LoadStatus, ViewStatus} from '../../../../app-store.state';
 
 const reducer = createReducer(initialUserState,
   on(loadUsers, (state) => ({
@@ -35,7 +36,14 @@ const reducer = createReducer(initialUserState,
 
     return {
       ...state,
-      users
+      users,
+      usersViewStatus: ViewStatus.Add
+    };
+  }),
+  on(userEdit, (state) => {
+    return {
+      ...state,
+      usersViewStatus: ViewStatus.Edit
     };
   }),
   on(userCreated, (state, action) => {
@@ -49,7 +57,8 @@ const reducer = createReducer(initialUserState,
 
     return {
       ...state,
-      users: updatedUsers
+      users: updatedUsers,
+      usersViewStatus: ViewStatus.View
     };
   }),
   on(userUpdated, (state, action) => {
@@ -63,7 +72,8 @@ const reducer = createReducer(initialUserState,
 
     return {
       ...state,
-      users: updatedUsers
+      users: updatedUsers,
+      usersViewStatus: ViewStatus.View
     };
   }),
   on(userDeleted, (state, action) => {
@@ -92,7 +102,8 @@ const reducer = createReducer(initialUserState,
 
     return {
       ...state,
-      users: updatedUsers
+      users: updatedUsers,
+      usersViewStatus: ViewStatus.View
     };
   })
 );

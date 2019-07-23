@@ -3,14 +3,14 @@ import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 
 import {Dictionary} from '../../../core/dictionary/dictionary';
-import {DictionaryState, LoadStatus} from './store/dictionary-store.state';
+import {DictionaryState} from './store/dictionary-store.state';
 import {
   selectAllDictionaries, selectAllDictionaryValues,
-  selectDictionaryLoadStatus,
+  selectDictionaryLoadStatus, selectDictionaryViewStatus,
 } from './store/dictionary-store.selectors';
 import {
   dictionaryValueAdd, dictionaryValueCancel,
-  dictionaryValueDelete,
+  dictionaryValueDelete, dictionaryValueEdit,
   dictionaryValueSave,
   loadDictionaries,
   loadDictionaryValues,
@@ -18,6 +18,7 @@ import {
   resetDictionaryValues
 } from './store/dictionary-store.actions';
 import {DictionaryValue} from '../../../core/dictionary/dictionary-value';
+import {LoadStatus, ViewStatus} from '../../../app-store.state';
 
 @Injectable()
 export class DictionariesManager {
@@ -43,6 +44,13 @@ export class DictionariesManager {
    */
   public resetDictionaries(): void {
     this._dictionaryStore.dispatch(resetDictionaries());
+  }
+
+  /**
+   * Will return an {Observable} that can be subscribed to to listen for changes to the view-status of the Dictionaries.
+   */
+  public getViewStatus(): Observable<ViewStatus> {
+    return this._dictionaryStore.select(selectDictionaryViewStatus);
   }
 
   /**
@@ -73,6 +81,10 @@ export class DictionariesManager {
 
   public addDictionaryValue(dictionaryMeaning: string): void {
     this._dictionaryStore.dispatch(dictionaryValueAdd({dictionaryMeaning}));
+  }
+
+  public editDictionaryValue(dictionaryMeaning: string, dictionaryValue: DictionaryValue): void {
+    this._dictionaryStore.dispatch(dictionaryValueEdit({dictionaryMeaning, dictionaryValue}));
   }
 
   public cancelDictionaryValue(dictionaryMeaning: string, dictionaryValue: DictionaryValue): void {

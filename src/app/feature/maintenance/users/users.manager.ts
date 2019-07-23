@@ -4,9 +4,9 @@ import {Observable} from 'rxjs';
 
 import {UserState} from './store/user-store.state';
 import {User} from '../../../core/user/user';
-import {selectAllUsers, selectUsersLoadStatus} from './store/user-store.selectors';
-import {LoadStatus} from '../dictionaries/store/dictionary-store.state';
-import {loadUsers} from './store/user-store.actions';
+import {selectAllUsers, selectUsersLoadStatus, selectUsersViewStatus} from './store/user-store.selectors';
+import {loadUsers, resetUsers, userAdd, userCancel, userDelete, userEdit, userSave} from './store/user-store.actions';
+import {LoadStatus, ViewStatus} from '../../../app-store.state';
 
 @Injectable()
 export class UsersManager {
@@ -31,17 +31,30 @@ export class UsersManager {
    * Will reset the UsersStore back to its initial state.
    */
   public resetUsers(): void {
+    this._userStore.dispatch(resetUsers());
+  }
+
+  public getViewStatus(): Observable<ViewStatus> {
+    return this._userStore.select(selectUsersViewStatus);
   }
 
   public addUser(): void {
+    this._userStore.dispatch(userAdd());
+  }
+
+  public editUser(user: User): void {
+    this._userStore.dispatch(userEdit({user}));
   }
 
   public cancelUser(user: User): void {
+    this._userStore.dispatch(userCancel({user}));
   }
 
   public saveUser(user: User): void {
+    this._userStore.dispatch(userSave({user}));
   }
 
   public deleteUser(user: User): void {
+    this._userStore.dispatch(userDelete({user}));
   }
 }

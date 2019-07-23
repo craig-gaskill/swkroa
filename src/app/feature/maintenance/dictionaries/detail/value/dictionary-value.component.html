@@ -19,17 +19,17 @@
   </div>
 
   <div class="button-row">
-    <ng-container *ngIf="!editing">
+    <ng-container *ngIf="!editing && (viewStatus$ | async) === VIEW_STATUS.View">
       <button type="button"
               mat-raised-button
               color="primary"
               (click)="onEdit()">
-        EDIT
+        Edit
       </button>
       <button type="button"
               mat-raised-button
               (click)="onDelete()">
-        DELETE
+        Delete
       </button>
     </ng-container>
 
@@ -39,12 +39,12 @@
               color="primary"
               [disabled]="formGroup.invalid || formGroup.pristine"
               (click)="onSave()">
-        SAVE
+        Save
       </button>
       <button type="button"
               mat-button
               (click)="onCancel()">
-        CANCEL
+        Cancel
       </button>
     </ng-container>
   </div>

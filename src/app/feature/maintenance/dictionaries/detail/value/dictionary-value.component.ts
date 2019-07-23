@@ -1,11 +1,13 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MatDialog} from '@angular/material';
+import {Observable} from 'rxjs';
 
 import {CgtConfirmationComponent, CgtConfirmationContext} from '@cagst/ngx-components';
 
 import {DictionaryValue} from '../../../../../core/dictionary/dictionary-value';
 import {DictionariesManager} from '../../dictionaries.manager';
+import {ViewStatus} from '../../../../../app-store.state';
 
 @Component({
   selector: 'swkroa-dictionary-value',
@@ -14,9 +16,12 @@ import {DictionariesManager} from '../../dictionaries.manager';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DictionaryValueComponent implements OnInit {
+  public readonly VIEW_STATUS = ViewStatus;
+
   private _dictionaryValue: DictionaryValue;
 
   public formGroup: FormGroup;
+  public viewStatus$: Observable<ViewStatus>;
   public editing = false;
 
   @Input() public dictionaryMeaning: string;
@@ -50,10 +55,13 @@ export class DictionaryValueComponent implements OnInit {
       // place in edit mode so they can complete it
       this.editing = true;
     }
+
+    this.viewStatus$ = this._dictionariesManager.getViewStatus();
   }
 
   public onEdit(): void {
     this.editing = true;
+    this._dictionariesManager.editDictionaryValue(this.dictionaryMeaning, this._dictionaryValue);
   }
 
   public onDelete(): void {

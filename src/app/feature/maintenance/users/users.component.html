@@ -1,9 +1,16 @@
 <h4>Users</h4>
 <mat-accordion>
-  <mat-expansion-panel *ngFor="let user of users$ | async">
-    <mat-expansion-panel-header>{{user.person | cgtNameFormat}}</mat-expansion-panel-header>
+  <mat-expansion-panel *ngFor="let user of users$ | async"
+                       [expanded]="!user.userId">
+    <mat-expansion-panel-header>{{user.userId ? (user.person | cgtNameFormat) : 'New User'}}</mat-expansion-panel-header>
 
     <swkroa-user-detail [user]="user">
     </swkroa-user-detail>
   </mat-expansion-panel>
+
+  <mat-action-row *ngIf="(viewStatus$ | async) === VIEW_STATUS.View">
+    <button mat-button color="accent" (click)="onAddUser()">
+      Add User
+    </button>
+  </mat-action-row>
 </mat-accordion>
