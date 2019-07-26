@@ -23,7 +23,7 @@
     "@angular/router": "~8.0.1",
     "@cagst/ngx-components": "~8.0.0-beta.1",
     "@cagst/ngx-configuration": "~8.0.0-beta.1",
-    "@cagst/ngx-person": "~8.0.0-beta.1",
+    "@cagst/ngx-person": "~8.0.0-beta.2",
     "@cagst/ngx-utilities": "~8.0.0-beta.1",
     "@ngrx/effects": "^8.0.1",
     "@ngrx/entity": "^8.0.1",

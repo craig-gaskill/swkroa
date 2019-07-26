@@ -24,6 +24,8 @@ import {SharedMaterialModule} from './shared-material.module';
 
     CgtConfirmationModule,
     CgtInputModule
+  ],
+  providers: [
   ]
 })
 export class SharedModule { }

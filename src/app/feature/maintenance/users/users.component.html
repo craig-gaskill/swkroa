@@ -2,7 +2,13 @@
 <mat-accordion>
   <mat-expansion-panel *ngFor="let user of users$ | async"
                        [expanded]="!user.userId">
-    <mat-expansion-panel-header>{{user.userId ? (user.person | cgtNameFormat) : 'New User'}}</mat-expansion-panel-header>
+    <mat-expansion-panel-header>
+      <ng-container *ngIf="!user.userId">New User</ng-container>
+      <ng-container *ngIf="user.userId">
+        {{user.person | cgtPersonFormatter}}&nbsp;&nbsp;
+        <span class="text-muted">( {{user.username}} )</span>
+      </ng-container>
+    </mat-expansion-panel-header>
 
     <swkroa-user-detail [user]="user">
     </swkroa-user-detail>
