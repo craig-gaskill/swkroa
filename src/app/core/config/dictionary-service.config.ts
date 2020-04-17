@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 
-import {DictionaryServiceConfig} from '../dictionary/dictionary.service';
+import {CgtDictionaryServiceConfig} from '@cagst/ngx-dictionary';
+
 import {environment} from '../../../environments/environment';
 
 @Injectable()
-export class ConfigureDictionaryService implements DictionaryServiceConfig {
+export class DictionaryServiceConfig implements CgtDictionaryServiceConfig {
   baseUrl = environment.serviceUrl + '/dictionaries';
 }

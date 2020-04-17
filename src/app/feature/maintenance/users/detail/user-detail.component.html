@@ -2,6 +2,14 @@
   <mat-divider [inset]="true"></mat-divider>
 
   <div class="row">
+    <cgt-dictionary-select id="title"
+                           name="title"
+                           label="Title"
+                           [editing]="editing"
+                           [dictionaryMeaning]="STANDARD_DICTIONARIES.TITLE"
+                           formControlName="titleCd">
+    </cgt-dictionary-select>
+
     <cgt-input id="firstName"
                name="firstName"
                label="First Name"

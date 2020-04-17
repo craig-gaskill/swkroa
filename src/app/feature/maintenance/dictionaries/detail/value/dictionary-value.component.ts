@@ -4,8 +4,8 @@ import {MatDialog} from '@angular/material';
 import {Observable} from 'rxjs';
 
 import {CgtConfirmationComponent, CgtConfirmationContext} from '@cagst/ngx-components';
+import {CgtDictionaryValue} from '@cagst/ngx-dictionary';
 
-import {DictionaryValue} from '../../../../../core/dictionary/dictionary-value';
 import {DictionariesManager} from '../../dictionaries.manager';
 import {ViewStatus} from '../../../../../app-store.state';
 
@@ -18,7 +18,7 @@ import {ViewStatus} from '../../../../../app-store.state';
 export class DictionaryValueComponent implements OnInit {
   public readonly VIEW_STATUS = ViewStatus;
 
-  private _dictionaryValue: DictionaryValue;
+  private _dictionaryValue: CgtDictionaryValue;
 
   public formGroup: FormGroup;
   public viewStatus$: Observable<ViewStatus>;
@@ -26,11 +26,11 @@ export class DictionaryValueComponent implements OnInit {
 
   @Input() public dictionaryMeaning: string;
 
-  @Input() public get dictionaryValue(): DictionaryValue {
+  @Input() public get dictionaryValue(): CgtDictionaryValue {
     return this._dictionaryValue;
   }
 
-  public set dictionaryValue(value: DictionaryValue) {
+  public set dictionaryValue(value: CgtDictionaryValue) {
     this._dictionaryValue = value;
 
     this.formGroup.reset({
@@ -68,9 +68,9 @@ export class DictionaryValueComponent implements OnInit {
     const confirmDelete: CgtConfirmationContext = {
       title: 'Please Confirm',
       message: `Are you sure you want to delete <b>${this._dictionaryValue.display}</b>?`,
-      acceptText: 'Confirm',
+      acceptText: 'CONFIRM',
       acceptData: 'CONFIRMED',
-      declineText: 'Cancel',
+      declineText: 'CANCEL',
       declineData: 'CANCELED'
     };
 
@@ -86,12 +86,13 @@ export class DictionaryValueComponent implements OnInit {
   public onSave(): void {
     const formModel = this.formGroup.value;
 
-    const dv: DictionaryValue = new DictionaryValue();
-    dv.dictionaryValueId = this._dictionaryValue.dictionaryValueId;
-    dv.display = formModel.display;
-    dv.meaning = formModel.meaning;
-    dv.active = this._dictionaryValue.active;
-    dv.updateCount = this.dictionaryValue.updateCount;
+    const dv: CgtDictionaryValue = {
+      dictionaryValueId: this._dictionaryValue.dictionaryValueId,
+      display: formModel.display,
+      meaning: formModel.meaning,
+      active: this._dictionaryValue.active,
+      updateCount: this.dictionaryValue.updateCount
+    };
 
     this._dictionariesManager.saveDictionaryValue(this.dictionaryMeaning, dv);
   }

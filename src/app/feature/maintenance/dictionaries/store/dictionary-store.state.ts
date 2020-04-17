@@ -1,16 +1,16 @@
-import {Dictionary} from '../../../../core/dictionary/dictionary';
-import {DictionaryValue} from '../../../../core/dictionary/dictionary-value';
+import {CgtDictionary, CgtDictionaryValue} from '@cagst/ngx-dictionary';
+
 import {LoadStatus, ViewStatus} from '../../../../app-store.state';
 
 export interface DictionaryValueState {
   dictionaryMeaning: string;
-  dictionaryValues: DictionaryValue[];
+  dictionaryValues: CgtDictionaryValue[];
   dictionaryValuesLoadStatus: LoadStatus;
   dictionaryValuesLoadError: string;
 }
 
 export interface DictionaryState {
-  dictionaries: Dictionary[];
+  dictionaries: CgtDictionary[];
   dictionariesLoadStatus: LoadStatus;
   dictionariesLoadError: string;
   dictionaryValueStates: DictionaryValueState[];

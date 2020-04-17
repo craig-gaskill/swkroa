@@ -2,7 +2,8 @@ import {Injectable} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 
-import {Dictionary} from '../../../core/dictionary/dictionary';
+import {CgtDictionary, CgtDictionaryValue} from '@cagst/ngx-dictionary';
+
 import {DictionaryState} from './store/dictionary-store.state';
 import {
   selectAllDictionaries, selectAllDictionaryValues,
@@ -17,7 +18,6 @@ import {
   resetDictionaries,
   resetDictionaryValues
 } from './store/dictionary-store.actions';
-import {DictionaryValue} from '../../../core/dictionary/dictionary-value';
 import {LoadStatus, ViewStatus} from '../../../app-store.state';
 
 @Injectable()
@@ -27,7 +27,7 @@ export class DictionariesManager {
   /**
    * Will return an {Observable} that can be subscribed to to listen for changes to the list of Dictionaries.
    */
-  public selectAllDictionaries(): Observable<Dictionary[]> {
+  public selectAllDictionaries(): Observable<CgtDictionary[]> {
     return this._dictionaryStore.select(selectAllDictionaries);
   }
 
@@ -60,7 +60,7 @@ export class DictionariesManager {
    * @param dictionaryMeaning
    *    The meaning of the Dictionary to listed for changes to Dictionary Values on.
    */
-  public selectAllDictionaryValues(dictionaryMeaning: string): Observable<DictionaryValue[]> {
+  public selectAllDictionaryValues(dictionaryMeaning: string): Observable<CgtDictionaryValue[]> {
     return this._dictionaryStore.select(selectAllDictionaryValues(dictionaryMeaning));
   }
 
@@ -83,19 +83,19 @@ export class DictionariesManager {
     this._dictionaryStore.dispatch(dictionaryValueAdd({dictionaryMeaning}));
   }
 
-  public editDictionaryValue(dictionaryMeaning: string, dictionaryValue: DictionaryValue): void {
+  public editDictionaryValue(dictionaryMeaning: string, dictionaryValue: CgtDictionaryValue): void {
     this._dictionaryStore.dispatch(dictionaryValueEdit({dictionaryMeaning, dictionaryValue}));
   }
 
-  public cancelDictionaryValue(dictionaryMeaning: string, dictionaryValue: DictionaryValue): void {
+  public cancelDictionaryValue(dictionaryMeaning: string, dictionaryValue: CgtDictionaryValue): void {
     this._dictionaryStore.dispatch(dictionaryValueCancel({dictionaryMeaning, dictionaryValue}));
   }
 
-  public saveDictionaryValue(dictionaryMeaning: string, dictionaryValue: DictionaryValue): void {
+  public saveDictionaryValue(dictionaryMeaning: string, dictionaryValue: CgtDictionaryValue): void {
     this._dictionaryStore.dispatch(dictionaryValueSave({dictionaryMeaning, dictionaryValue}));
   }
 
-  public deleteDictionaryValue(dictionaryMeaning: string, dictionaryValue: DictionaryValue): void {
+  public deleteDictionaryValue(dictionaryMeaning: string, dictionaryValue: CgtDictionaryValue): void {
     this._dictionaryStore.dispatch(dictionaryValueDelete({dictionaryMeaning, dictionaryValue}));
   }
 }

@@ -1,10 +1,11 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
 
+import {CgtDictionary} from '@cagst/ngx-dictionary';
+
 import {DictionaryState, DictionaryValueState} from './dictionary-store.state';
-import {Dictionary} from '../../../../core/dictionary/dictionary';
 import {LoadStatus, ViewStatus} from '../../../../app-store.state';
 
-const getAllDictionaries       = (state: DictionaryState): Dictionary[] => state.dictionaries;
+const getAllDictionaries       = (state: DictionaryState): CgtDictionary[] => state.dictionaries;
 const getDictionaryLoadStatus  = (state: DictionaryState): LoadStatus => state.dictionariesLoadStatus;
 const getDictionaryLoadError   = (state: DictionaryState): string => state.dictionariesLoadError;
 const getDictionaryValueStates = (state: DictionaryState): DictionaryValueState[] => state.dictionaryValueStates;

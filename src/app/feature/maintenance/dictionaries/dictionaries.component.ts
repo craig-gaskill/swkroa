@@ -1,7 +1,8 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 
-import {Dictionary} from '../../../core/dictionary/dictionary';
+import {CgtDictionary} from '@cagst/ngx-dictionary';
+
 import {DictionariesManager} from './dictionaries.manager';
 import {ViewStatus} from '../../../app-store.state';
 
@@ -13,7 +14,7 @@ import {ViewStatus} from '../../../app-store.state';
 export class DictionariesComponent implements OnInit, OnDestroy {
   public readonly VIEW_STATUS = ViewStatus;
 
-  public dictionaries$: Observable<Dictionary[]>;
+  public dictionaries$: Observable<CgtDictionary[]>;
   public viewStatus$: Observable<ViewStatus>;
   public expandedMeaning: string;
 

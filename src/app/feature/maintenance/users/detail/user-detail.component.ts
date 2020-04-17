@@ -1,12 +1,13 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MatDialog} from '@angular/material';
+import {Observable} from 'rxjs';
 
 import {User} from '../../../../core/user/user';
 import {UsersManager} from '../users.manager';
 import {CgtConfirmationComponent, CgtConfirmationContext} from '@cagst/ngx-components';
 import {ViewStatus} from '../../../../app-store.state';
-import {Observable} from 'rxjs';
+import {StandardDictionaries} from '../../../../core/dictionary/standard-dictionaries';
 
 @Component({
   selector: 'swkroa-user-detail',
@@ -16,6 +17,7 @@ import {Observable} from 'rxjs';
 })
 export class UserDetailComponent implements OnInit {
   public readonly VIEW_STATUS = ViewStatus;
+  public readonly STANDARD_DICTIONARIES = StandardDictionaries;
 
   private _user: User;
 
@@ -38,6 +40,7 @@ export class UserDetailComponent implements OnInit {
               private _usersManager: UsersManager
   ) {
     this.formGroup = this._formBuilder.group({
+      titleCd: undefined,
       firstName: undefined,
       middleName: undefined,
       lastName: undefined
@@ -86,6 +89,7 @@ export class UserDetailComponent implements OnInit {
 
   private resetForm(user: User) {
     this.formGroup.reset({
+      titleCd: user ? user.person.titleCd : undefined,
       firstName: user ? user.person.firstName : undefined,
       middleName: user ? user.person.middleName : undefined,
       lastName: user ? user.person.lastName : undefined

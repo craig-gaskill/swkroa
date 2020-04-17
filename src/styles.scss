@@ -21,6 +21,10 @@ body { margin: 0; font-family: 'Roboto', sans-serif; }
   display: inline-block;
 }
 
+.mat-button {
+  text-transform: uppercase;
+}
+
 swkroa-app {
   display: flex;
   flex-direction: column;

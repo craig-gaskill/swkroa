@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import {CgtConfirmationModule, CgtInputModule} from '@cagst/ngx-components';
+import {CgtDictionaryModule} from '@cagst/ngx-dictionary';
 
 import {SharedMaterialModule} from './shared-material.module';
 
@@ -14,6 +15,7 @@ import {SharedMaterialModule} from './shared-material.module';
     SharedMaterialModule,
 
     CgtConfirmationModule,
+    CgtDictionaryModule,
     CgtInputModule
   ],
   exports: [
@@ -23,6 +25,7 @@ import {SharedMaterialModule} from './shared-material.module';
     SharedMaterialModule,
 
     CgtConfirmationModule,
+    CgtDictionaryModule,
     CgtInputModule
   ],
   providers: [

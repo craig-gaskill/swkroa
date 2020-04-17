@@ -1,5 +1,7 @@
 import {Action, createReducer, on} from '@ngrx/store';
 
+import {CgtDictionaryValue} from '@cagst/ngx-dictionary';
+
 import {DictionaryState, DictionaryValueState, initialDictionaryState} from './dictionary-store.state';
 import {
   dictionaryValueAdd, dictionaryValueCancel, dictionaryValueCreated, dictionaryValueUpdated, dictionaryValueDeleted,
@@ -7,7 +9,6 @@ import {
   loadDictionaryValues, loadDictionaryValuesFailed, loadDictionaryValuesSucceeded,
   resetDictionaries, resetDictionaryValues, dictionaryValueEdit
 } from './dictionary-store.actions';
-import {DictionaryValue} from '../../../../core/dictionary/dictionary-value';
 import {LoadStatus, ViewStatus} from '../../../../app-store.state';
 
 const reducer = createReducer(initialDictionaryState,
@@ -107,7 +108,13 @@ const reducer = createReducer(initialDictionaryState,
     const dvs = [...state.dictionaryValueStates];
 
     if (idx >= 0) {
-      const values = [...dvs[idx].dictionaryValues, new DictionaryValue()];
+      const values: CgtDictionaryValue[] = [
+        ...dvs[idx].dictionaryValues, {
+          display: '',
+          active: true,
+          updateCount: 0
+        }
+      ];
 
       const dv: DictionaryValueState = {
         dictionaryMeaning: action.dictionaryMeaning,

@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
 
-import {DictionaryValue} from '../../../../core/dictionary/dictionary-value';
+import {CgtDictionary, CgtDictionaryValue} from '@cagst/ngx-dictionary';
+
 import {DictionariesManager} from '../dictionaries.manager';
-import {Dictionary} from '../../../../core/dictionary/dictionary';
 
 @Component({
   selector: 'swkroa-dictionary-detail',
@@ -11,10 +11,10 @@ import {Dictionary} from '../../../../core/dictionary/dictionary';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DictionaryDetailComponent implements OnInit {
-  public dictionaryValues$: Observable<DictionaryValue[]>;
+  public dictionaryValues$: Observable<CgtDictionaryValue[]>;
 
   @Input()
-  public dictionary: Dictionary;
+  public dictionary: CgtDictionary;
 
   constructor(private _dictionariesManager: DictionariesManager) { }
 

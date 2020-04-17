@@ -5,6 +5,7 @@ import {catchError, exhaustMap, map, tap, withLatestFrom} from 'rxjs/operators';
 import {EMPTY, of} from 'rxjs';
 
 import {CgtNotificationService} from '@cagst/ngx-components';
+import {CgtDictionaryService, CgtDictionaryValueService} from '@cagst/ngx-dictionary';
 
 import {
   dictionaryValueDelete, dictionaryValueDeleted, dictionaryValueDeleteFailed,
@@ -12,7 +13,6 @@ import {
   loadDictionaries, loadDictionariesFailed, loadDictionariesSucceeded,
   loadDictionaryValues, loadDictionaryValuesFailed, loadDictionaryValuesSucceeded
 } from './dictionary-store.actions';
-import {DictionaryService} from '../../../../core/dictionary/dictionary.service';
 import {selectDictionaryValueStates} from './dictionary-store.selectors';
 import {DictionaryState} from './dictionary-store.state';
 import {LoadStatus} from '../../../../app-store.state';
@@ -21,7 +21,8 @@ import {LoadStatus} from '../../../../app-store.state';
 export class DictionaryStoreEffects {
   constructor(private _dictionaryStore: Store<DictionaryState>,
               private _actions$: Actions,
-              private _dictionaryService: DictionaryService,
+              private _dictionaryService: CgtDictionaryService,
+              private _dictionaryValueService: CgtDictionaryValueService,
               private _notificationService: CgtNotificationService
   ) { }
 
@@ -53,7 +54,7 @@ export class DictionaryStoreEffects {
         if (vs && (vs.dictionaryValuesLoadStatus === LoadStatus.Loaded || vs.dictionaryValuesLoadStatus === LoadStatus.NoContent)) {
           return EMPTY;
         } else {
-          return this._dictionaryService.getDictionaryValues(action.dictionaryMeaning, 0, 0)
+          return this._dictionaryValueService.getDictionaryValues(action.dictionaryMeaning, 0, 0)
             .pipe(
               map(results =>
                 loadDictionaryValuesSucceeded({dictionaryMeaning: action.dictionaryMeaning, values: results})
@@ -75,7 +76,7 @@ export class DictionaryStoreEffects {
       ofType(dictionaryValueSave),
       exhaustMap(action => {
         if (action.dictionaryValue.dictionaryValueId) {
-          return this._dictionaryService.updateDictionaryValue(action.dictionaryMeaning, action.dictionaryValue)
+          return this._dictionaryValueService.updateDictionaryValue(action.dictionaryMeaning, action.dictionaryValue)
             .pipe(
               map(result =>
                 dictionaryValueUpdated({dictionaryMeaning: action.dictionaryMeaning, dictionaryValue: result})
@@ -91,7 +92,7 @@ export class DictionaryStoreEffects {
               })
             );
         } else {
-          return this._dictionaryService.createDictionaryValue(action.dictionaryMeaning, action.dictionaryValue)
+          return this._dictionaryValueService.createDictionaryValue(action.dictionaryMeaning, action.dictionaryValue)
             .pipe(
               map(result =>
                 dictionaryValueCreated({dictionaryMeaning: action.dictionaryMeaning, dictionaryValue: result})
@@ -147,7 +148,7 @@ export class DictionaryStoreEffects {
   public dictionaryValueDelete$ = createEffect(() => this._actions$
     .pipe(
       ofType(dictionaryValueDelete),
-      exhaustMap(action => this._dictionaryService.deleteDictionaryValue(action.dictionaryMeaning, action.dictionaryValue)
+      exhaustMap(action => this._dictionaryValueService.deleteDictionaryValue(action.dictionaryMeaning, action.dictionaryValue)
         .pipe(
           map(() =>
             dictionaryValueDeleted({dictionaryMeaning: action.dictionaryMeaning, dictionaryValue: action.dictionaryValue})
